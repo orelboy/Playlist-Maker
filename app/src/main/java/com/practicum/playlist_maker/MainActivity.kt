@@ -1,6 +1,7 @@
 package com.practicum.playlist_maker
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,9 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 //Реализация анонимного класса
         val buttonSearch = findViewById<Button>(R.id.search)
-        val displayIntent = Intent(this, SearchActivity::class.java)
         val imageClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
+                val displayIntent = Intent( v?.context , SearchActivity::class.java)
                 startActivity(displayIntent)
             }
         }

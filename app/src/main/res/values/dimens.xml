@@ -7,4 +7,8 @@
     <dimen name="header_start_padding">12dp</dimen>
     <dimen name="margin_top_icon">19dp</dimen>
     <dimen name="margin_bottom_icon">18dp</dimen>
+    <dimen name="radius_button">16dp</dimen>
+    <dimen name="padding_icon">8dp</dimen>
+    <dimen name="margin_bottom_button">16dp</dimen>
+    <dimen name="height_button">0dp</dimen>
 </resources>
