@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <FrameLayout
@@ -18,20 +18,12 @@
 
             <ImageView
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:padding="16dp"
-                android:src="@drawable/light_mode_back_arrow"/>
+                android:src="@drawable/light_mode_back_arrow"
+                style="@style/ImageInHeaderStyle"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/header_start_padding"
                 android:text="@string/settings"
-                android:textColor="@color/black"
-                android:textSize="@dimen/medium" />
+                style="@style/HeaderOpenItemMainStyle"/>
         </LinearLayout>
     </FrameLayout>
 
@@ -49,18 +41,13 @@
             android:layout_height="@dimen/height_button_in_activity_settings">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:text="@string/dark_theme"
-                android:textColor="@color/black"
-                android:textSize="@dimen/regular"/>
+                style="@style/ButtonSettingsStyle"/>
 
-            <Switch
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                tools:ignore="UseSwitchCompatOrMaterialXml"/>
+            <androidx.appcompat.widget.SwitchCompat
+                app:trackTint="@drawable/switch_track_selector"
+                app:thumbTint="@drawable/switch_thumb_selector"
+                style="@style/MySwitch"/>
         </FrameLayout>
 
         <FrameLayout
@@ -68,18 +55,13 @@
             android:layout_height="@dimen/height_button_in_activity_settings">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:id="@+id/sharing"
                 android:text="@string/share_app"
-                android:textColor="@color/black"
-                android:textSize="@dimen/regular"/>
+                style="@style/ButtonSettingsStyle"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:src="@drawable/light_mode_share"/>
+                android:src="@drawable/light_mode_share"
+                style="@style/ImageSettingsStyle"/>
         </FrameLayout>
 
         <FrameLayout
@@ -87,18 +69,13 @@
             android:layout_height="@dimen/height_button_in_activity_settings">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:id="@+id/support"
                 android:text="@string/write_support"
-                android:textColor="@color/black"
-                android:textSize="@dimen/regular"/>
+                style="@style/ButtonSettingsStyle"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:src="@drawable/light_mode_support"/>
+                android:src="@drawable/light_mode_support"
+                style="@style/ImageSettingsStyle"/>
         </FrameLayout>
 
         <FrameLayout
@@ -106,18 +83,13 @@
             android:layout_height="@dimen/height_button_in_activity_settings">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:id="@+id/user_agreement"
                 android:text="@string/user_agreement"
-                android:textColor="@color/black"
-                android:textSize="@dimen/regular"/>
+                style="@style/ButtonSettingsStyle"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:src="@drawable/light_mode_arrow_forward"/>
+                android:src="@drawable/light_mode_arrow_forward"
+                style="@style/ImageSettingsStyle"/>
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>
