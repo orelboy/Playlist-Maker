@@ -1,5 +1,6 @@
 package com.practicum.playlist_maker
 
-object Сonstants {
+object Constants {
     const val SEARCH_TEXT = "SEARCH_TEXT"
+
 }

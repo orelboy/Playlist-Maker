@@ -9,7 +9,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import com.practicum.playlist_maker.Сonstants.SEARCH_TEXT
+import androidx.core.view.isVisible
+
+private const val SEARCH_TEXT = "SEARCH_TEXT"
 
 class SearchActivity : AppCompatActivity() {
     private var searchText = ""
@@ -26,21 +28,14 @@ class SearchActivity : AppCompatActivity() {
         val btnClear = findViewById<ImageView>(R.id.icon_clear_in_string)
         editText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-               // TODO("Not yet implemented")
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-               // TODO("Not yet implemented")
-                if (editText.text.isEmpty()){
-                    btnClear.visibility = View.INVISIBLE
-                }else{
-                    btnClear.visibility = View.VISIBLE
-                }
+                btnClear.isVisible = editText.text.isNotEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
-               // TODO("Not yet implemented")
                 searchText = editText.text.toString()
             }
         })
