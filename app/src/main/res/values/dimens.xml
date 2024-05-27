@@ -11,4 +11,8 @@
     <dimen name="padding_icon">8dp</dimen>
     <dimen name="margin_bottom_button">16dp</dimen>
     <dimen name="height_button">0dp</dimen>
+    <dimen name="height_fl_search">52dp</dimen>
+    <dimen name="padding_h_fl_search">16dp</dimen>
+    <dimen name="padding_v_fl_search">8dp</dimen>
+    <dimen name="start_small_search_icon">12dp</dimen>
 </resources>
