@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="regular">16sp</dimen>
+    <dimen name="regular_16">16sp</dimen>
+    <dimen name="regular_11">11sp</dimen>
     <dimen name="height_button_in_activity_settings">61dp</dimen>
     <dimen name="medium">22sp</dimen>
     <dimen name="height_header">56dp</dimen>

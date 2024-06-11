@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/rootTrack"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="61dp">
+
+    <ImageView
+        android:id="@+id/albumPicture"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="66dp"
+        android:layout_marginEnd="44dp"
+        android:orientation="vertical"
+        android:paddingVertical="14dp">
+        <TextView
+            android:id="@+id/trackName"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:theme="@style/ThemeBlackWhiteText"
+            style="@style/Track"
+            tools:text="trackName"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            android:theme="@style/ThemeGrayWhiteText">
+            <TextView
+                android:id="@+id/artistName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                style="@style/SubstringTrack"
+                tools:text="artistName"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_point"
+                android:theme="@style/ThemeDefaultWhiteIc"/>
+            <TextView
+                android:id="@+id/trackTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SubstringTrack"
+                tools:text="00:00"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/light_mode_arrow_forward"
+        android:paddingEnd="12dp"
+        android:paddingStart="8dp"
+        android:theme="@style/ThemeDefaultWhiteIc"
+        style="@style/ImageSettingsStyle"/>
+
+</FrameLayout>

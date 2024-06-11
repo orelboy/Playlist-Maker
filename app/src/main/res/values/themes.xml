@@ -19,9 +19,18 @@
     <style name="Theme.Settings" parent="Base.Theme.PlaylistMaker">
     </style>
 
+    <style name="ThemeDefaultWhiteIc" parent="Base.Theme.PlaylistMaker">
+    </style>
+
     <style name="Theme.Search" parent="Base.Theme.PlaylistMaker">
     </style>
 
     <style name="Theme.SearchString" parent="Theme.Search">
+    </style>
+    <style name="ThemeBlackWhiteText">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="ThemeGrayWhiteText">
+        <item name="android:textColor">@color/text_gray</item>
     </style>
 </resources>
