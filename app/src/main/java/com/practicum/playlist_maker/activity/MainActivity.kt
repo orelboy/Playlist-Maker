@@ -1,13 +1,12 @@
-package com.practicum.playlist_maker
+package com.practicum.playlist_maker.activity
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import com.practicum.playlist_maker.R
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("WrongViewCast", "MissingInflatedId")
