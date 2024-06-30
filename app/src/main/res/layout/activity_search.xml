@@ -28,8 +28,6 @@
         </LinearLayout>
     </FrameLayout>
 
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_fl_search"
@@ -60,7 +58,9 @@
                 android:textSize="@dimen/regular_16"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/cursor"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:imeOptions="actionDone"
+                android:singleLine="true"/>
             <ImageView
                 android:id="@+id/icon_clear_in_string"
                 android:src="@drawable/clear"
@@ -69,21 +69,78 @@
                 android:layout_gravity="end"
                 style="@style/ImageInSearchString"/>
         </FrameLayout>
-
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTracks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="16dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/music_track" />
+            tools:listitem="@layout/music_track"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/errorSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/ErrorMarginHorizontal_24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTopError"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/error_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TextErrorInternet"
+                style="@style/TextErrorInternet"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/errorInternet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/ErrorMarginHorizontal_24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTopError"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/error_internet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_internet"
+                style="@style/TextErrorInternet"/>
+
+            <Button
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/update"
+                style="@style/ButtonUpdate"/>
+
+        </LinearLayout>
 
     </FrameLayout>
 
