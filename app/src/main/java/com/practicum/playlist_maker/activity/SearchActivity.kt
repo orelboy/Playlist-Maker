@@ -105,6 +105,10 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                 })
+            }else {
+                errorInternet.isVisible = false
+                errorSearch.isVisible = false
+                rvTracksList.isVisible = false
             }
         }
 
