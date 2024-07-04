@@ -103,12 +103,7 @@ class SearchActivity : AppCompatActivity() {
                         errorSearch.isVisible = false
                         rvTracksList.isVisible = false
                     }
-
                 })
-            }else {
-                errorInternet.isVisible = false
-                errorSearch.isVisible = false
-                rvTracksList.isVisible = false
             }
         }
 
@@ -119,6 +114,11 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 btnClear.isVisible = querySearchString.text.isNotEmpty()
+                if (btnClear.isVisible == false){
+                    rvTracksList.isVisible = false
+                    errorInternet.isVisible = false
+                    errorSearch.isVisible = false
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
