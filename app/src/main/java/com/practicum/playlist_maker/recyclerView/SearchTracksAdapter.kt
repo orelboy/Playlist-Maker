@@ -1,12 +1,14 @@
-package com.practicum.playlist_maker
+package com.practicum.playlist_maker.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlist_maker.R
 
 class SearchTracksAdapter  (
-    private val data: List<Track>
 ) : RecyclerView.Adapter<SearchTracksViewHolder> () {
+    var tracks = ArrayList<Track>()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTracksViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.music_track, parent, false)
@@ -14,10 +16,10 @@ class SearchTracksAdapter  (
     }
 
     override fun onBindViewHolder(holder: SearchTracksViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(tracks[position])
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return tracks.size
     }
 }

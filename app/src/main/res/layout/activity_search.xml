@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <FrameLayout
@@ -19,71 +19,132 @@
 
             <ImageView
                 android:id="@+id/back"
-                android:src="@drawable/light_mode_back_arrow"
-                style="@style/ImageInHeaderStyle"/>
+                style="@style/ImageInHeaderStyle"
+                android:src="@drawable/light_mode_back_arrow" />
 
             <TextView
-                android:text="@string/search"
-                style="@style/HeaderOpenItemMainStyle"/>
+                style="@style/HeaderOpenItemMainStyle"
+                android:text="@string/search" />
         </LinearLayout>
     </FrameLayout>
-
-
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_fl_search"
         android:paddingHorizontal="@dimen/padding_h_fl_search"
         android:paddingVertical="@dimen/padding_v_fl_search">
+
         <FrameLayout
             android:id="@+id/search_string"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_input_search"
             android:theme="@style/Theme.SearchString">
+
             <ImageView
                 android:id="@+id/icon_search_in_string"
-                android:src="@drawable/small_search_icon"
+                style="@style/ImageInSearchString"
                 android:paddingStart="@dimen/start_small_search_icon"
-                style="@style/ImageInSearchString"/>
+                android:src="@drawable/small_search_icon" />
+
             <EditText
                 android:id="@+id/edittext_in_search_string"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/ys_display_regular"
                 android:hint="@string/search"
-                android:textFontWeight="400"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="36dp"
                 android:paddingEnd="40dp"
-                android:textSize="@dimen/regular_16"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/cursor"
-                android:background="@android:color/transparent"/>
+                android:textFontWeight="400"
+                android:textSize="@dimen/regular_16" />
+
             <ImageView
                 android:id="@+id/icon_clear_in_string"
-                android:src="@drawable/clear"
-                android:paddingHorizontal="12dp"
-                android:visibility="gone"
+                style="@style/ImageInSearchString"
                 android:layout_gravity="end"
-                style="@style/ImageInSearchString"/>
+                android:paddingHorizontal="12dp"
+                android:src="@drawable/clear"
+                android:visibility="gone" />
         </FrameLayout>
-
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTracks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/music_track" />
+
+        <LinearLayout
+            android:id="@+id/errorSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/ErrorMarginHorizontal_24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTopError"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/error_search" />
+
+            <TextView
+                style="@style/TextErrorInternet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/TextErrorInternet" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/errorInternet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/ErrorMarginHorizontal_24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/paddingTopError"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/error_internet" />
+
+            <TextView
+                style="@style/TextErrorInternet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_internet" />
+
+            <Button
+                android:id="@+id/updateButton"
+                style="@style/ButtonUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/update" />
+
+        </LinearLayout>
 
     </FrameLayout>
 
