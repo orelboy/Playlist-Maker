@@ -11,7 +11,5 @@
     <string name="text_support_mail">Thanks to the developers for the cool app!</string>
     <string name="update">Update</string>
     <string name="error_internet">Connection problems.\n\nDownload failed. Check your internet connection</string>
-    <string name="TextErrorInternet">Nothing found</string>
-    <string name="search_history_header">You were looking for</string>
-    <string name="clear_history">Clear history</string>
+    <string name="TextErrorInternet">Ничего не нашлось</string>
 </resources>

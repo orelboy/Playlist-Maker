@@ -44,8 +44,7 @@
                 android:text="@string/dark_theme"
                 style="@style/ButtonSettingsStyle"/>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/themeSwitcher"
+            <androidx.appcompat.widget.SwitchCompat
                 app:trackTint="@drawable/switch_track_selector"
                 app:thumbTint="@drawable/switch_thumb_selector"
                 style="@style/MySwitch"/>

@@ -2,16 +2,12 @@ package com.practicum.playlist_maker.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.material.switchmaterial.SwitchMaterial
-import com.practicum.playlist_maker.App
 import com.practicum.playlist_maker.R
 
 
@@ -49,34 +45,6 @@ class SettingsActivity : AppCompatActivity() {
             val userAgreementIntent = Intent(Intent.ACTION_VIEW,
                 Uri.parse (getString(R.string.url_offer)))
             startActivity(userAgreementIntent)
-        }
-
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
-        val prefs = applicationContext as App
-        themeSwitcher.isChecked = prefs.darkTheme
-        themeSwitcher.setOnClickListener { view->
-            val checked = (view as SwitchMaterial).isChecked
-            prefs.switchTheme(checked)
-            prefs.saveTheme(checked)
-        }
-    }
-
-    override fun onResume(){
-        super.onResume()
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
-        val prefs = applicationContext as App
-        if (AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM == AppCompatDelegate.getDefaultNightMode()){
-            when (resources.configuration.uiMode and  Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_NO -> {
-                    themeSwitcher.isChecked = false
-                }
-                Configuration.UI_MODE_NIGHT_YES -> {
-                    themeSwitcher.isChecked = true
-                }
-            }
-        }
-        else{
-            themeSwitcher.isChecked = prefs.darkTheme
         }
     }
 }

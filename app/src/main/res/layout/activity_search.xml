@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:app1="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -89,41 +88,6 @@
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/music_track" />
-
-
-        <LinearLayout
-            android:id="@+id/search_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="24dp"
-            android:visibility="gone">
-            <TextView
-                style="@style/headerHistory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/search_history_header"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTracks_history"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-            <Button
-                android:id="@+id/btn_clear_history"
-                style="@style/ButtonClearHistory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/clear_history"
-                app1:layout_constraintBottom_toBottomOf="parent"
-                app1:layout_constraintEnd_toEndOf="parent"
-                app1:layout_constraintStart_toStartOf="parent"
-                app1:layout_constraintTop_toBottomOf="@+id/rvTracks_history" />
-        </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/errorSearch"

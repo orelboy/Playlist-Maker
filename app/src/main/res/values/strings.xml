@@ -15,6 +15,4 @@
     <string name="update">Обновить</string>
     <string name="error_internet">Проблемы со связью.\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="TextErrorInternet">Ничего не нашлось</string>
-    <string name="search_history_header">Вы искали</string>
-    <string name="clear_history">Очистить историю</string>
 </resources>

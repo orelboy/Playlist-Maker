@@ -84,17 +84,7 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="cornerRadius">@dimen/radius_button</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:backgroundTint">?attr/colorOnPrimary</item>
-    </style>
-    <style name="ButtonClearHistory" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textFontWeight">500</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="cornerRadius">@dimen/radius_button_clr_history</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:backgroundTint">?attr/colorOnPrimary</item>
-        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:backgroundTint">?attr/colorOnPrimary</item>>
     </style>
     <style name="TextErrorInternet">
         <item name="android:textSize">@dimen/textError_19sp</item>
@@ -103,13 +93,4 @@
         <item name="android:textFontWeight">400</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-    <style name="headerHistory">
-        <item name="android:textSize">@dimen/textError_19sp</item>
-        <item name="android:paddingTop">18dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:textFontWeight">500</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="android:gravity">center_horizontal</item>
-    </style>
-
 </resources>
