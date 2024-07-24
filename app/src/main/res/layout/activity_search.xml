@@ -89,6 +89,37 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/music_track" />
 
+
+        <LinearLayout
+            android:id="@+id/search_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="24dp"
+            android:visibility="gone">
+            <TextView
+                style="@style/headerHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_history_header"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTracks_history"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <Button
+                android:id="@+id/btn_clear_history"
+                style="@style/ButtonClearHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/clear_history"/>
+        </LinearLayout>
+
+
         <LinearLayout
             android:id="@+id/errorSearch"
             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.practicum.playlist_maker.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +14,9 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlist_maker.App.Companion.PLAYLIST_MAKER_PREFERENCES
 import com.practicum.playlist_maker.R
+import com.practicum.playlist_maker.SearchHistory
 import com.practicum.playlist_maker.recyclerView.Track
 import com.practicum.playlist_maker.api.ITunesSearchAPI
 import com.practicum.playlist_maker.api.SearchTracksResponse
@@ -23,6 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.roundToInt
 
 private const val SEARCH_TEXT = "SEARCH_TEXT"
 class SearchActivity : AppCompatActivity() {
@@ -36,29 +40,40 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var querySearchString: EditText
     private lateinit var rvTracksList: RecyclerView
+    private lateinit var rvTracksListHistory: RecyclerView
+    private lateinit var searchHistoryPreferences: SearchHistory
 
     private val tracks = ArrayList<Track>()
     private val adapter = SearchTracksAdapter()
+    private var trackHistoryAdapter = SearchTracksAdapter()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val buttonBack = findViewById<ImageView>(R.id.back)
-        val imageClickListener: View.OnClickListener = View.OnClickListener { finish() }
-        buttonBack.setOnClickListener(imageClickListener)
-
-        adapter.tracks=tracks
-
-        querySearchString = findViewById(R.id.edittext_in_search_string)
-        rvTracksList = findViewById(R.id.rvTracks)
-
-        rvTracksList.adapter = adapter
-
         val btnClear = findViewById<ImageView>(R.id.icon_clear_in_string)
         val btnUpdate = findViewById<Button>(R.id.updateButton)
         val errorInternet = findViewById<LinearLayout>(R.id.errorInternet)
         val errorSearch = findViewById<LinearLayout>(R.id.errorSearch)
+        val searchHistory = findViewById<LinearLayout>(R.id.search_history)
+        val btnClearHistory = findViewById<Button>(R.id.btn_clear_history)
+        val buttonBack = findViewById<ImageView>(R.id.back)
+        val imageClickListener: View.OnClickListener = View.OnClickListener { finish() }
+        buttonBack.setOnClickListener(imageClickListener)
+
+
+        searchHistoryPreferences = SearchHistory(getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE))
+        querySearchString = findViewById(R.id.edittext_in_search_string)
+
+        adapter.tracks=tracks
+        rvTracksList = findViewById(R.id.rvTracks)
+        rvTracksList.adapter = adapter
+
+        trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
+        rvTracksListHistory = findViewById(R.id.rvTracks_history)
+        rvTracksListHistory.adapter = trackHistoryAdapter
+
 
         fun closeKeyboard(){
             val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -76,6 +91,7 @@ class SearchActivity : AppCompatActivity() {
                         response: Response<SearchTracksResponse>
                     ) {
                         if (response.code() == 200) {
+                            rvTracksList.removeAllViews()
                             rvTracksList.isVisible = true
                             errorInternet.isVisible = false
                             errorSearch.isVisible = false
@@ -87,11 +103,13 @@ class SearchActivity : AppCompatActivity() {
                                 errorSearch.isVisible = true
                                 errorInternet.isVisible = false
                                 rvTracksList.isVisible = false
+                                rvTracksList.removeAllViews()
                             }
                         } else {
                             errorInternet.isVisible = true
                             errorSearch.isVisible = false
                             rvTracksList.isVisible = false
+                            rvTracksList.removeAllViews()
                         }
                     }
 
@@ -102,6 +120,7 @@ class SearchActivity : AppCompatActivity() {
                         errorInternet.isVisible = true
                         errorSearch.isVisible = false
                         rvTracksList.isVisible = false
+                        rvTracksList.removeAllViews()
                     }
                 })
             }
@@ -119,6 +138,10 @@ class SearchActivity : AppCompatActivity() {
                     errorInternet.isVisible = false
                     errorSearch.isVisible = false
                 }
+                searchHistory.visibility = if (querySearchString.hasFocus() && s?.isEmpty() == true && trackHistoryAdapter.tracks.isNotEmpty()) View.VISIBLE else View.GONE
+                if(searchHistory.visibility == View.VISIBLE){
+                    rvTracksListHistory.removeAllViews()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -126,12 +149,19 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        querySearchString.requestFocus()
+        if (trackHistoryAdapter.tracks.isNotEmpty()) {
+            searchHistory.visibility = View.VISIBLE
+            rvTracksListHistory.removeAllViews()
+        }
+
         querySearchString.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 search()
             }
             false
         }
+
         btnUpdate.setOnClickListener {
             search()
         }
@@ -142,6 +172,26 @@ class SearchActivity : AppCompatActivity() {
             errorInternet.isVisible = false
             errorSearch.isVisible = false
             closeKeyboard()
+            if (trackHistoryAdapter.tracks.isNotEmpty()) {
+                searchHistory.visibility = View.VISIBLE
+                rvTracksListHistory.removeAllViews()
+            }
+        }
+
+        btnClearHistory.setOnClickListener {
+            searchHistoryPreferences.clearHistory()
+            trackHistoryAdapter.notifyDataSetChanged()
+            searchHistory.visibility = View.GONE
+        }
+
+        adapter.setOnItemClickListener{ track ->
+            searchHistoryPreferences.addTrack(track)
+            trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
+            trackHistoryAdapter.notifyDataSetChanged()
+        }
+
+        querySearchString.setOnFocusChangeListener { _, hasFocus ->
+            searchHistory.visibility = if (hasFocus && querySearchString.text.isEmpty() && trackHistoryAdapter.tracks.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
 
