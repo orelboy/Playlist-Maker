@@ -1,6 +1,6 @@
 package com.practicum.playlist_maker.activity
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,7 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.roundToInt
+
 
 private const val SEARCH_TEXT = "SEARCH_TEXT"
 class SearchActivity : AppCompatActivity() {
@@ -180,19 +180,35 @@ class SearchActivity : AppCompatActivity() {
 
         btnClearHistory.setOnClickListener {
             searchHistoryPreferences.clearHistory()
-            trackHistoryAdapter.notifyDataSetChanged()
             searchHistory.visibility = View.GONE
         }
 
         adapter.setOnItemClickListener{ track ->
             searchHistoryPreferences.addTrack(track)
             trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
-            trackHistoryAdapter.notifyDataSetChanged()
+            startWalkmanActivity(track)
+        }
+
+        trackHistoryAdapter.setOnItemClickListener{ track ->
+            searchHistoryPreferences.addTrack(track)
+            trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
+            startWalkmanActivity(track)
         }
 
         querySearchString.setOnFocusChangeListener { _, hasFocus ->
             searchHistory.visibility = if (hasFocus && querySearchString.text.isEmpty() && trackHistoryAdapter.tracks.isNotEmpty()) View.VISIBLE else View.GONE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        trackHistoryAdapter.notifyDataSetChanged()
+    }
+
+    private fun startWalkmanActivity(track: Track) {
+        val walkmanIntent = Intent(this, WalkmanActivity::class.java)
+        walkmanIntent.putExtra("TRACK_KEY", track)
+        startActivity(walkmanIntent)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
