@@ -2,6 +2,8 @@ package com.practicum.playlist_maker.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +50,13 @@ class SearchActivity : AppCompatActivity() {
     private val adapter = SearchTracksAdapter()
     private var trackHistoryAdapter = SearchTracksAdapter()
 
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +69,7 @@ class SearchActivity : AppCompatActivity() {
         val searchHistory = findViewById<LinearLayout>(R.id.search_history)
         val btnClearHistory = findViewById<Button>(R.id.btn_clear_history)
         val buttonBack = findViewById<ImageView>(R.id.back)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val imageClickListener: View.OnClickListener = View.OnClickListener { finish() }
         buttonBack.setOnClickListener(imageClickListener)
 
@@ -83,6 +94,12 @@ class SearchActivity : AppCompatActivity() {
 
         fun search(){
             if (querySearchString.text.isNotEmpty()) {
+
+                errorInternet.isVisible = false
+                errorSearch.isVisible = false
+                rvTracksList.isVisible = false
+                progressBar.isVisible = true
+
                 iTunesSearchService.search("song", querySearchString.text.toString())
                 .enqueue(object :
                     Callback<SearchTracksResponse> {
@@ -90,6 +107,7 @@ class SearchActivity : AppCompatActivity() {
                         call: Call<SearchTracksResponse>,
                         response: Response<SearchTracksResponse>
                     ) {
+                        progressBar.isVisible = false
                         if (response.code() == 200) {
                             rvTracksList.removeAllViews()
                             rvTracksList.isVisible = true
@@ -119,11 +137,18 @@ class SearchActivity : AppCompatActivity() {
                     ) {
                         errorInternet.isVisible = true
                         errorSearch.isVisible = false
+                        progressBar.isVisible = false
                         rvTracksList.isVisible = false
                         rvTracksList.removeAllViews()
                     }
                 })
             }
+        }
+        val searchRunnable = Runnable { search() }
+
+        fun searchDebounce() {
+            handler.removeCallbacks(searchRunnable)
+            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
         }
 
         querySearchString.addTextChangedListener(object : TextWatcher {
@@ -142,6 +167,8 @@ class SearchActivity : AppCompatActivity() {
                 if(searchHistory.visibility == View.VISIBLE){
                     rvTracksListHistory.removeAllViews()
                 }
+
+                searchDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -184,15 +211,19 @@ class SearchActivity : AppCompatActivity() {
         }
 
         adapter.setOnItemClickListener{ track ->
-            searchHistoryPreferences.addTrack(track)
-            trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
-            startWalkmanActivity(track)
+            if (clickDebounce()) {
+                searchHistoryPreferences.addTrack(track)
+                trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
+                startWalkmanActivity(track)
+            }
         }
 
         trackHistoryAdapter.setOnItemClickListener{ track ->
-            searchHistoryPreferences.addTrack(track)
-            trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
-            startWalkmanActivity(track)
+            if (clickDebounce()) {
+                searchHistoryPreferences.addTrack(track)
+                trackHistoryAdapter.tracks = searchHistoryPreferences.getHistory()
+                startWalkmanActivity(track)
+            }
         }
 
         querySearchString.setOnFocusChangeListener { _, hasFocus ->
@@ -224,5 +255,14 @@ class SearchActivity : AppCompatActivity() {
             editText.setText(searchText)
             editText.setSelection(editText.length())
         }
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 }
