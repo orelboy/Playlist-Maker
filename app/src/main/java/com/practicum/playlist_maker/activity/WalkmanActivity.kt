@@ -1,4 +1,4 @@
-package com.practicum.playlist_maker.activity;
+package com.practicum.playlist_maker.activity
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-public class WalkmanActivity : AppCompatActivity() {
+class WalkmanActivity : AppCompatActivity() {
 
     private var track: Track? = null
     companion object {
