@@ -1,4 +1,4 @@
-package com.practicum.playlist_maker.recyclerView
+package com.practicum.playlist_maker.presentation.search
 
 import android.view.View
 import android.widget.ImageView
@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.Utils.dpToPx
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.practicum.playlist_maker.domain.models.Track
 
 class SearchTracksViewHolder (itemView: View): RecyclerView.ViewHolder(itemView) {
     private val albumPicture: ImageView = itemView.findViewById(R.id.albumPicture)
@@ -28,6 +27,6 @@ class SearchTracksViewHolder (itemView: View): RecyclerView.ViewHolder(itemView)
         trackName.text = item.trackName
         artistName.text = item.artistName
         artistName.requestLayout()
-        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTime)
+        trackTime.text = item.getTrackTime(item.trackTime)
     }
 }

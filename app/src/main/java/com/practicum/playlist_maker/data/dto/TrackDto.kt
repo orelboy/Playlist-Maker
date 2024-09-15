@@ -1,10 +1,8 @@
-package com.practicum.playlist_maker.recyclerView
+package com.practicum.playlist_maker.data.dto
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-data class Track(
+data class TrackDto(
     @SerializedName("trackId") val trackId: Int,
     @SerializedName("trackName") val trackName: String,
     @SerializedName("artistName") val artistName: String,
@@ -15,6 +13,4 @@ data class Track(
     @SerializedName("primaryGenreName") val primaryGenreName: String,
     @SerializedName("country") val country: String,
     @SerializedName("previewUrl") val previewUrl: String
-) : Serializable {
-    fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
-}
+) : Serializable

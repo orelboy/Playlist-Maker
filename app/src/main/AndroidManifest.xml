@@ -19,22 +19,22 @@
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="31">
         <activity
-            android:name=".activity.WalkmanActivity"
+            android:name=".presentation.walkman.WalkmanActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".activity.MediaLibraryActivity"
+            android:name=".presentation.medialibrary.MediaLibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".presentation.search.SearchActivity"
             android:exported="false"
             android:theme="@style/Theme.Search"/>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".presentation.settings.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.Settings"/>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.PlaylistMaker">
             <intent-filter>
