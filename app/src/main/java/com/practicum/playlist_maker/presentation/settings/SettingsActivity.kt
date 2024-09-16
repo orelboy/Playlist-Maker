@@ -15,13 +15,12 @@ import com.practicum.playlist_maker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
-    private val interactor by lazy { Creator.provideSettingsInteractor(this) }
+    private val interactor by lazy { Creator.provideSettingsInteractor() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-
         val imageClickListener: View.OnClickListener = View.OnClickListener { finish() }
         binding.back.setOnClickListener(imageClickListener)
 

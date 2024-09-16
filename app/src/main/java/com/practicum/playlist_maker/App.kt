@@ -11,6 +11,7 @@ class App  : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Creator.setContext(this)
         sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
         if (sharedPrefs?.all.isNullOrEmpty() || sharedPrefs?.all?.keys!!.contains(THEME_SWITCHER_KEY).not()){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

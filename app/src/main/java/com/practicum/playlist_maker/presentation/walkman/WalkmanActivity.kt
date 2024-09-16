@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlist_maker.Creator
 import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.domain.models.Track
-import com.practicum.playlist_maker.Utils.dpToPx
+import com.practicum.playlist_maker.presentation.AndroidUtils.dpToPx
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.practicum.playlist_maker.databinding.ActivityWalkmanBinding

@@ -4,7 +4,6 @@ import com.practicum.playlist_maker.data.dto.SearchTracksRequest
 import com.practicum.playlist_maker.data.dto.SearchTracksResponse
 import com.practicum.playlist_maker.domain.TracksSearchState
 import com.practicum.playlist_maker.domain.api.TracksRepository
-import com.practicum.playlist_maker.domain.models.Track
 
 class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
     override fun searchTracks(expression: String): TracksSearchState {
@@ -17,18 +16,7 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                     TracksSearchState.EmptyListError
                 } else {
                     TracksSearchState.Success((response).results.map {
-                        Track(
-                            it.trackId,
-                            it.artistName,
-                            it.trackName,
-                            it.trackTime,
-                            it.artworkUrl100,
-                            it.collectionName,
-                            it.releaseDate,
-                            it.primaryGenreName,
-                            it.country,
-                            it.previewUrl
-                        )
+                        it.mapToTrack()
                     })
                 }
             } else return TracksSearchState.EmptyListError

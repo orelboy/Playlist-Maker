@@ -44,12 +44,16 @@ object Creator {
         return SearchHistoryInteractorImpl(getSearchHistoryRepository(context))
     }
 
-    private fun getSettingsRepository(context: Context): SettingsRepository {
-        return SettingsRepositoryImpl(context)
+    private lateinit var appContext: Context
+    fun setContext(context: Context) {
+        appContext = context.applicationContext
+    }
+    private fun getSettingsRepository(): SettingsRepository {
+        return SettingsRepositoryImpl(appContext)
     }
 
-    fun provideSettingsInteractor(context: Context): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository(context))
+    fun provideSettingsInteractor(): SettingsInteractor {
+        return SettingsInteractorImpl(getSettingsRepository())
     }
 
     private fun getWalkmanRepository(): WalkmanRepository{
