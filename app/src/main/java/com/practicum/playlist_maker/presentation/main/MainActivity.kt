@@ -1,35 +1,38 @@
-package com.practicum.playlist_maker.activity
+package com.practicum.playlist_maker.presentation.main
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import com.practicum.playlist_maker.R
+import com.practicum.playlist_maker.databinding.ActivityMainBinding
+import com.practicum.playlist_maker.presentation.medialibrary.MediaLibraryActivity
+import com.practicum.playlist_maker.presentation.search.SearchActivity
+import com.practicum.playlist_maker.presentation.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("WrongViewCast", "MissingInflatedId")
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
+
 //Реализация анонимного класса
-        val buttonSearch = findViewById<Button>(R.id.search)
         val imageClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val displayIntent = Intent( v?.context , SearchActivity::class.java)
                 startActivity(displayIntent)
             }
         }
-        buttonSearch.setOnClickListener(imageClickListener)
+        binding.search.setOnClickListener(imageClickListener)
+
 //Лямбда-выражение
-        val buttonMediaLibrary = findViewById<Button>(R.id.media_library)
-        val buttonSettings = findViewById<Button>(R.id.settings)
-        buttonMediaLibrary.setOnClickListener {
+        binding.mediaLibrary.setOnClickListener {
             val displayIntent = Intent(this, MediaLibraryActivity::class.java)
             startActivity(displayIntent)
         }
-        buttonSettings.setOnClickListener {
+        binding.settings.setOnClickListener {
             val displayIntent = Intent(this, SettingsActivity::class.java)
             startActivity(displayIntent)
         }
