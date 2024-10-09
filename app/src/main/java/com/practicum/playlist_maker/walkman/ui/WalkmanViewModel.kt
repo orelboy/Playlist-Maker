@@ -70,7 +70,7 @@ class WalkmanViewModel : ViewModel() {
             override fun run() {
                 if (playStatusLiveData.value == PlayerState.STATE_PLAYING) {
                     val currentPosition = SimpleDateFormat(
-                        "mm:ss",
+                        DATE_FORMAT,
                         Locale.getDefault()
                     ).format(walkmanInteractor.getCurrentPosition())
                     currentPositionLiveData.value = currentPosition
@@ -83,6 +83,7 @@ class WalkmanViewModel : ViewModel() {
     companion object {
         private const val PLAY_TIME_DELAY = 500L
         private const val DEFAULT_TIME = "00:00"
+        private const val DATE_FORMAT = "mm:ss"
 
 
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {

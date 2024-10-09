@@ -58,7 +58,7 @@ class WalkmanActivity : AppCompatActivity() {
             artistName.text = track?.artistName
             durationData.text = track?.getTrackTime(track?.trackTime!!)
             albumData.text = getAlbumData()
-            yearData.text = track?.releaseDate?.take(4)
+            yearData.text = track?.releaseDate?.take(STR_YEAR_LENGTH)
             genreData.text = track?.primaryGenreName
             countryData.text = track?.country
             url = track?.previewUrl
@@ -69,7 +69,7 @@ class WalkmanActivity : AppCompatActivity() {
                     .load(track?.getCoverArtwork())
                     .placeholder(R.drawable.ic_placeholder_312)
                     .fitCenter()
-                    .transform(RoundedCorners(8.dpToPx(this)))
+                    .transform(RoundedCorners(ROUNDING_RADIUS.dpToPx(this)))
                     .into(it)
         }
     }
@@ -91,4 +91,8 @@ class WalkmanActivity : AppCompatActivity() {
         binding.playAndPause.setImageResource(R.drawable.ic_button_play)
     }
 
+    companion object {
+        private const val STR_YEAR_LENGTH = 4
+        private const val ROUNDING_RADIUS = 8
+    }
 }

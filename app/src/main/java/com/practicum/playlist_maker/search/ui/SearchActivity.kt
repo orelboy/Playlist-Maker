@@ -115,38 +115,38 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter.tracks.clear()
         trackAdapter.tracks.addAll(listTracks)
         binding.apply {
-            rvTracks.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
-            errorInternet.visibility = View.GONE
-            errorSearch.visibility = View.GONE
+            rvTracks.isVisible = true
+            progressBar.isVisible = false
+            errorInternet.isVisible = false
+            errorSearch.isVisible = false
             rvTracks.removeAllViews()
         }
     }
 
     private fun showLoading(){
         binding.apply {
-            errorInternet.visibility = View.GONE
-            errorSearch.visibility = View.GONE
-            rvTracks.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
+            errorInternet.isVisible = false
+            errorSearch.isVisible = false
+            rvTracks.isVisible = false
+            progressBar.isVisible = true
         }
     }
 
     private fun showNetworkError() {
         binding.apply {
-            errorInternet.visibility = View.VISIBLE
-            errorSearch.visibility = View.GONE
-            progressBar.visibility = View.GONE
-            rvTracks.visibility = View.GONE
+            errorInternet.isVisible = true
+            errorSearch.isVisible = false
+            progressBar.isVisible = false
+            rvTracks.isVisible = false
         }
     }
 
     private fun showEmptyListError() {
         binding.apply {
-            errorInternet.visibility = View.GONE
-            errorSearch.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
-            rvTracks.visibility = View.GONE
+            errorInternet.isVisible = false
+            errorSearch.isVisible = true
+            progressBar.isVisible = false
+            rvTracks.isVisible = false
         }
     }
 
@@ -154,17 +154,13 @@ class SearchActivity : AppCompatActivity() {
         trackHistoryAdapter.tracks.clear()
         trackHistoryAdapter.tracks.addAll(historyList)
         binding.apply {
-            rvTracks.visibility = View.GONE
-            progressBar.visibility = View.GONE
-            errorInternet.visibility = View.GONE
-            errorSearch.visibility = View.GONE
-            searchHistory.visibility =
-                if (searchEditText.text.isEmpty() && trackHistoryAdapter.tracks.isNotEmpty()) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
-            if (searchHistory.visibility == View.VISIBLE) {
+            rvTracks.isVisible = false
+            progressBar.isVisible = false
+            errorInternet.isVisible = false
+            errorSearch.isVisible = false
+            searchHistory.isVisible =
+                searchEditText.text.isEmpty() && trackHistoryAdapter.tracks.isNotEmpty()
+            if (searchHistory.isVisible) {
                 rvTracksHistory.removeAllViews()
             }
         }

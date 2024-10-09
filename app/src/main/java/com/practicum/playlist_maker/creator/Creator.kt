@@ -48,7 +48,7 @@ object Creator {
         return HistoryInteractorImpl(getSearchHistoryRepository(context))
     }
 
-    private lateinit var appContext: Context
+    private var appContext: Context? = null
     fun setContext(context: Context) {
         appContext = context.applicationContext
     }
