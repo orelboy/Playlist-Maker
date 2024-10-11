@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlist_maker.R
@@ -13,11 +12,12 @@ import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.creator.AndroidUtils.dpToPx
 import com.practicum.playlist_maker.databinding.ActivityWalkmanBinding
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class WalkmanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWalkmanBinding
-    private lateinit var viewModel: WalkmanViewModel
+    private val viewModel by viewModel<WalkmanViewModel>()
 
     private var track: Track? = null
     private var url: String? = null
@@ -28,8 +28,6 @@ class WalkmanActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         IntentCompat.getSerializableExtra(intent, "TRACK_KEY", Track::class.java)?.let { track = it }
-
-        viewModel = ViewModelProvider(this, WalkmanViewModel.getViewModelFactory())[WalkmanViewModel::class.java]
 
         viewModel.observePlayStatusState().observe(this) {state ->
             when (state) {

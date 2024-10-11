@@ -4,6 +4,12 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlist_maker.di.dataModule
+import com.practicum.playlist_maker.di.interactorModule
+import com.practicum.playlist_maker.di.repositoryModule
+import com.practicum.playlist_maker.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App  : Application() {
     var darkTheme = false
@@ -11,7 +17,10 @@ class App  : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Creator.setContext(this)
+        startKoin{
+            androidContext(this@App)
+            modules(dataModule, repositoryModule, interactorModule, viewModelModule)
+        }
         sharedPrefs = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES, MODE_PRIVATE)
         if (sharedPrefs?.all.isNullOrEmpty() || sharedPrefs?.all?.keys!!.contains(THEME_SWITCHER_KEY).not()){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
