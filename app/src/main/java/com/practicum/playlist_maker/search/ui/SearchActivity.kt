@@ -11,16 +11,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlist_maker.databinding.ActivitySearchBinding
 import com.practicum.playlist_maker.search.domain.models.SearchViewState
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.walkman.ui.WalkmanActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModel<SearchViewModel>()
 
     private var trackAdapter = SearchTracksAdapter()
     private var trackHistoryAdapter = SearchTracksAdapter()
@@ -31,8 +31,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

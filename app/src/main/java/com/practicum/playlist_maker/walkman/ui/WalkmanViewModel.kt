@@ -5,19 +5,17 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlist_maker.creator.Creator
+import com.practicum.playlist_maker.walkman.domain.api.WalkmanInteractor
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class WalkmanViewModel : ViewModel() {
-    private val walkmanInteractor = Creator.provideWalkmanInteractor()
+class WalkmanViewModel(
+    private val walkmanInteractor: WalkmanInteractor
+) : ViewModel() {
+
     private val handler = Handler(Looper.getMainLooper())
     private var playerState = PlayerState.STATE_DEFAULT
-
 
     private val playStatusLiveData = MutableLiveData(playerState)
     fun observePlayStatusState(): LiveData<PlayerState> = playStatusLiveData
@@ -84,12 +82,5 @@ class WalkmanViewModel : ViewModel() {
         private const val PLAY_TIME_DELAY = 500L
         private const val DEFAULT_TIME = "00:00"
         private const val DATE_FORMAT = "mm:ss"
-
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                WalkmanViewModel()
-            }
-        }
     }
 }

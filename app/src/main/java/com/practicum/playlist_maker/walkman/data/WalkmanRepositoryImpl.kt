@@ -4,9 +4,10 @@ import android.media.MediaPlayer
 import com.practicum.playlist_maker.walkman.domain.api.WalkmanRepository
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
 
-class WalkmanRepositoryImpl( private val mediaPlayer: MediaPlayer = MediaPlayer() ):
+class WalkmanRepositoryImpl( private val mediaPlayer: MediaPlayer):
     WalkmanRepository {
     override fun preparePlayer(url: String) {
+        mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
     }
@@ -38,5 +39,4 @@ class WalkmanRepositoryImpl( private val mediaPlayer: MediaPlayer = MediaPlayer(
     override fun getRelease() {
         mediaPlayer.release()
     }
-
 }
