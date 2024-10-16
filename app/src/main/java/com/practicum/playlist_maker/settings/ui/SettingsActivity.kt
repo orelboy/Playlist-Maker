@@ -18,7 +18,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            back.setOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 finish()
             }
             sharing.setOnClickListener {

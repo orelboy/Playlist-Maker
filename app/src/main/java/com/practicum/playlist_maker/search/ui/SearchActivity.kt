@@ -34,6 +34,9 @@ class SearchActivity : AppCompatActivity() {
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                viewModel.searchDebounce(
+                    changedText = s?.toString() ?: ""
+                )
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -44,7 +47,6 @@ class SearchActivity : AppCompatActivity() {
                 )
             }
             override fun afterTextChanged(s: Editable?) {
-
             }
         }
         textWatcher.let { binding.searchEditText.addTextChangedListener(it) }
@@ -68,7 +70,7 @@ class SearchActivity : AppCompatActivity() {
             rvTracks.adapter = trackAdapter
             rvTracksHistory.adapter = trackHistoryAdapter
 
-            back.setOnClickListener { finish() }
+            toolbar.setNavigationOnClickListener { finish() }
             updateButton.setOnClickListener {
                 viewModel.search(searchEditText.text.toString())
             }
