@@ -11,6 +11,7 @@
     <dimen name="radius_button">16dp</dimen>
     <dimen name="radius_button_update">56dp</dimen>
     <dimen name="radius_button_clr_history">54dp</dimen>
+    <dimen name="radius_button_newPlaylist">54dp</dimen>
     <dimen name="padding_icon">8dp</dimen>
     <dimen name="margin_bottom_button">16dp</dimen>
     <dimen name="height_button">0dp</dimen>
