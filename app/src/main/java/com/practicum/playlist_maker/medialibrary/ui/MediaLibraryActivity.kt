@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.google.android.material.tabs.TabLayoutMediator
+import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.databinding.ActivityMediaLibraryBinding
 
 class MediaLibraryActivity : AppCompatActivity() {
@@ -23,8 +24,8 @@ class MediaLibraryActivity : AppCompatActivity() {
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Избранные треки"
-                else -> tab.text = "Плейлисты"
+                0 -> tab.text = getString(R.string.favourite_tracks)
+                else -> tab.text = getString(R.string.playlists)
             }
         }
         tabMediator.attach()
