@@ -36,4 +36,7 @@
     <style name="ThemeGrayWhiteText">
         <item name="android:textColor">@color/text_gray</item>
     </style>
+    <style name="ThemeGrayGrayText">
+        <item name="android:textColor">@color/text_gray</item>
+    </style>
 </resources>
