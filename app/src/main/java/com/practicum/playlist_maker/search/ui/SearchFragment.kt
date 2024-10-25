@@ -1,6 +1,6 @@
 package com.practicum.playlist_maker.search.ui
 
-import android.content.Intent
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,18 +8,21 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.practicum.playlist_maker.databinding.ActivitySearchBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlist_maker.R
+import com.practicum.playlist_maker.databinding.FragmentSearchBinding
 import com.practicum.playlist_maker.search.domain.models.SearchViewState
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.walkman.ui.WalkmanActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
-    private lateinit var binding: ActivitySearchBinding
+    private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModel<SearchViewModel>()
 
     private var trackAdapter = SearchTracksAdapter()
@@ -27,10 +30,17 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(LayoutInflater.from(this))
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -51,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
         }
         textWatcher.let { binding.searchEditText.addTextChangedListener(it) }
 
-        viewModel.observeState().observe(this) {
+        viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
 
@@ -70,7 +80,6 @@ class SearchActivity : AppCompatActivity() {
             rvTracks.adapter = trackAdapter
             rvTracksHistory.adapter = trackHistoryAdapter
 
-            toolbar.setNavigationOnClickListener { finish() }
             updateButton.setOnClickListener {
                 viewModel.search(searchEditText.text.toString())
             }
@@ -98,9 +107,11 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun closeKeyboard() {
-        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        val view = this.currentFocus ?: View(this)
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        val inputMethodManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = activity?.currentFocus ?: view
+        if (view != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     private fun clickDebounce(): Boolean {
@@ -168,9 +179,11 @@ class SearchActivity : AppCompatActivity() {
 
     private fun startWalkmanActivity(track: Track) {
         if (clickDebounce()) {
-            val walkmanIntent = Intent(this, WalkmanActivity::class.java)
-            walkmanIntent.putExtra("TRACK_KEY", track)
-            startActivity(walkmanIntent)
+            findNavController()
+                .navigate(
+                    R.id.action_searchFragment_to_walkmanActivity,
+                    WalkmanActivity.createArgs(track)
+                )
         }
     }
 
