@@ -5,27 +5,33 @@
     android:id="@+id/navigation_graph"
     app:startDestination="@id/searchFragment">
     <fragment
-        android:id="@+id/mediaLibraryFragment"
-        android:name="com.practicum.playlist_maker.medialibrary.ui.MediaLibraryFragment"
-        android:label="fragment_media_library"
-        tools:layout="@layout/fragment_media_library" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.practicum.playlist_maker.settings.ui.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
-    <activity
-        android:id="@+id/walkmanActivity"
-        android:name="com.practicum.playlist_maker.walkman.ui.WalkmanActivity"
-        android:label="activity_walkman"
-        tools:layout="@layout/activity_walkman" />
-    <fragment
         android:id="@+id/searchFragment"
         android:name="com.practicum.playlist_maker.search.ui.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_searchFragment_to_walkmanActivity"
-            app:destination="@id/walkmanActivity" />
+            app:destination="@id/walkmanActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+    <activity
+        android:id="@+id/walkmanActivity"
+        android:name="com.practicum.playlist_maker.walkman.ui.WalkmanActivity"
+        android:label="activity_walkman"
+        tools:layout="@layout/activity_walkman" />
+
+    <fragment
+        android:id="@+id/mediaLibraryFragment"
+        android:name="com.practicum.playlist_maker.medialibrary.ui.MediaLibraryFragment"
+        android:label="fragment_media_library"
+        tools:layout="@layout/fragment_media_library" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.practicum.playlist_maker.settings.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
