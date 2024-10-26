@@ -29,6 +29,7 @@ class WalkmanActivity : AppCompatActivity() {
 
         IntentCompat.getSerializableExtra(intent, "TRACK_KEY", Track::class.java)?.let { track = it }
 
+
         viewModel.observePlayStatusState().observe(this) {state ->
             when (state) {
                 PlayerState.STATE_DEFAULT -> {viewModel.preparePlayer(url)}
@@ -92,5 +93,12 @@ class WalkmanActivity : AppCompatActivity() {
     companion object {
         private const val STR_YEAR_LENGTH = 4
         private const val ROUNDING_RADIUS = 8
+        private const val TRACK_KEY = "TRACK_KEY"
+
+        fun createArgs(track: Track): Bundle {
+            val args = Bundle()
+            args.putSerializable (TRACK_KEY, track)
+            return args
+        }
     }
 }
