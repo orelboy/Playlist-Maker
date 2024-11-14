@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlist_maker.R
-import com.practicum.playlist_maker.creator.AndroidUtils.dpToPx
+import com.practicum.playlist_maker.utils.AndroidUtils.dpToPx
 import com.practicum.playlist_maker.search.domain.models.Track
 
 class SearchTracksViewHolder (

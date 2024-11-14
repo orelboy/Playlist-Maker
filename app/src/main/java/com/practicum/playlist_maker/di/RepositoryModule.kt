@@ -1,7 +1,7 @@
 package com.practicum.playlist_maker.di
 
 import android.content.Context
-import com.practicum.playlist_maker.creator.App
+import com.practicum.playlist_maker.utils.App
 import com.practicum.playlist_maker.search.data.impl.HistoryRepositoryImpl
 import com.practicum.playlist_maker.search.data.impl.TracksRepositoryImpl
 import com.practicum.playlist_maker.search.domain.api.HistoryRepository

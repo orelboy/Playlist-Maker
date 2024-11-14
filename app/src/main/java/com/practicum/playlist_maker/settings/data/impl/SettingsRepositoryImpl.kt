@@ -1,6 +1,6 @@
 package com.practicum.playlist_maker.settings.data.impl
 
-import com.practicum.playlist_maker.creator.App
+import com.practicum.playlist_maker.utils.App
 import com.practicum.playlist_maker.settings.domain.api.SettingsRepository
 
 class SettingsRepositoryImpl(private val application: App) : SettingsRepository {
