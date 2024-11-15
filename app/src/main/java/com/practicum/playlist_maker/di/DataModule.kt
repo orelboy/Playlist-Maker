@@ -2,7 +2,7 @@ package com.practicum.playlist_maker.di
 
 import android.content.Context.MODE_PRIVATE
 import android.media.MediaPlayer
-import com.practicum.playlist_maker.creator.App.Companion.PLAYLIST_MAKER_PREFERENCES
+import com.practicum.playlist_maker.utils.App.Companion.PLAYLIST_MAKER_PREFERENCES
 import com.practicum.playlist_maker.search.data.network.ITunesSearchAPI
 import com.practicum.playlist_maker.search.data.network.NetworkClient
 import com.practicum.playlist_maker.search.data.network.RetrofitNetworkClient

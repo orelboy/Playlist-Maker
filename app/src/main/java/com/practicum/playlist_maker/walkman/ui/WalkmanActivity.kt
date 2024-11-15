@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.search.domain.models.Track
-import com.practicum.playlist_maker.creator.AndroidUtils.dpToPx
+import com.practicum.playlist_maker.utils.AndroidUtils.dpToPx
 import com.practicum.playlist_maker.databinding.ActivityWalkmanBinding
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
 import org.koin.androidx.viewmodel.ext.android.viewModel

@@ -1,12 +1,14 @@
 package com.practicum.playlist_maker.walkman.ui
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlist_maker.walkman.domain.api.WalkmanInteractor
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -14,7 +16,7 @@ class WalkmanViewModel(
     private val walkmanInteractor: WalkmanInteractor
 ) : ViewModel() {
 
-    private val handler = Handler(Looper.getMainLooper())
+    private var timerJob: Job? = null
     private var playerState = PlayerState.STATE_DEFAULT
 
     private val playStatusLiveData = MutableLiveData(playerState)
@@ -33,8 +35,8 @@ class WalkmanViewModel(
         walkmanInteractor.setOnCompletionListener { state ->
             playerState = state
             playStatusLiveData.value = playerState
-            handler.removeCallbacks(updateTimer())
             currentPositionLiveData.value = DEFAULT_TIME
+            timerJob?.cancel()
         }
     }
 
@@ -54,32 +56,30 @@ class WalkmanViewModel(
     fun startPlayer(){
         walkmanInteractor.startPlayer()
         playStatusLiveData.value = PlayerState.STATE_PLAYING
-        handler.post(updateTimer())
+        updateTimer()
     }
 
     fun pausePlayer(){
         walkmanInteractor.pausePlayer()
         playStatusLiveData.value = PlayerState.STATE_PAUSED
-        handler.removeCallbacks(updateTimer())
+        timerJob?.cancel()
     }
 
-    private fun updateTimer(): Runnable {
-        return object: Runnable{
-            override fun run() {
-                if (playStatusLiveData.value == PlayerState.STATE_PLAYING) {
-                    val currentPosition = SimpleDateFormat(
-                        DATE_FORMAT,
-                        Locale.getDefault()
-                    ).format(walkmanInteractor.getCurrentPosition())
-                    currentPositionLiveData.value = currentPosition
-                    handler.postDelayed(this, PLAY_TIME_DELAY)
-                }
+    private fun updateTimer() {
+        timerJob = viewModelScope.launch {
+            while (playStatusLiveData.value == PlayerState.STATE_PLAYING) {
+                delay(PLAY_TIME_DELAY)
+                val currentPosition = SimpleDateFormat(
+                    DATE_FORMAT,
+                    Locale.getDefault()
+                ).format(walkmanInteractor.getCurrentPosition())
+                currentPositionLiveData.value = currentPosition
             }
         }
     }
 
     companion object {
-        private const val PLAY_TIME_DELAY = 500L
+        private const val PLAY_TIME_DELAY = 300L
         private const val DEFAULT_TIME = "00:00"
         private const val DATE_FORMAT = "mm:ss"
     }
