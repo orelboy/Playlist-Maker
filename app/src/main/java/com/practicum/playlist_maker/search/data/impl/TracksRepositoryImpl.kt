@@ -1,15 +1,21 @@
 package com.practicum.playlist_maker.search.data.impl
 
+import com.practicum.playlist_maker.medialibrary.data.db.AppDatabase
 import com.practicum.playlist_maker.search.data.network.NetworkClient
 import com.practicum.playlist_maker.search.data.dto.SearchTracksRequest
 import com.practicum.playlist_maker.search.data.dto.SearchTracksResponse
 import com.practicum.playlist_maker.search.data.mapToTrack
 import com.practicum.playlist_maker.search.domain.models.SearchViewState
 import com.practicum.playlist_maker.search.domain.api.TracksRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
-class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository  {
+class TracksRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val dataBase: AppDatabase,
+    ) : TracksRepository  {
     override fun searchTracks(expression: String): Flow<SearchViewState> = flow {
         val response = networkClient.doRequest(SearchTracksRequest(expression))
         when (response.resultCode) {
@@ -18,9 +24,15 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                 if (result.isEmpty()){
                     emit(SearchViewState.Empty)
                 }else{
-                    emit(SearchViewState.Success((response).results.map {
+                    val favoritesId = dataBase.trackDao().getAllTracksId()
+                    val data = response.results.map {
                         it.mapToTrack()
-                    }))
+                    }
+                    data.forEach { track ->
+                        track.isFavorite = favoritesId.find { id -> track.trackId == id } != null
+                    }
+                   // data.sortedByDescending { track -> track.isFavorite }
+                    emit(SearchViewState.Success(data))
                 }
             }
             400 ->{
@@ -29,5 +41,5 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                 emit(SearchViewState.Error)
             }
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }

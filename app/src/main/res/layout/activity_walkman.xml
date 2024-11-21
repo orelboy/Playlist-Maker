@@ -133,7 +133,7 @@
         app:layout_constraintTop_toTopOf="@+id/playAndPause"
         app:layout_constraintBottom_toBottomOf="@+id/playAndPause"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        app:srcCompat="@drawable/ic_button_add_favorites" />
+        app:srcCompat="@drawable/ic_button_add_favorites_inactive" />
 
 
     <!--Descriptions -->

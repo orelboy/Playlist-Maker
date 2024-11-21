@@ -4,19 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlist_maker.medialibrary.domain.api.FavoritesInteractor
+import com.practicum.playlist_maker.medialibrary.domain.models.FavoritesState
+import com.practicum.playlist_maker.search.domain.models.Track
+import com.practicum.playlist_maker.utils.debounce
 import com.practicum.playlist_maker.walkman.domain.api.WalkmanInteractor
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class WalkmanViewModel(
-    private val walkmanInteractor: WalkmanInteractor
+    private val walkmanInteractor: WalkmanInteractor,
+    private val favoritesInteractor: FavoritesInteractor,
+    val track: Track?,
 ) : ViewModel() {
-
     private var timerJob: Job? = null
+    private var currentTeack: Track? = track
     private var playerState = PlayerState.STATE_DEFAULT
 
     private val playStatusLiveData = MutableLiveData(playerState)
@@ -24,6 +32,27 @@ class WalkmanViewModel(
 
     private val currentPositionLiveData = MutableLiveData(DEFAULT_TIME)
     fun observeCurrentPositionState(): LiveData<String> = currentPositionLiveData
+
+    private val isFavoriteLiveData = MutableLiveData<FavoritesState>()
+    fun observeIsFavorite(): LiveData<FavoritesState> = isFavoriteLiveData
+
+    private val isFavoriteChangeDebouce =
+        debounce<Boolean>(delayMillis = 0, viewModelScope, false) { isFavorite ->
+            setIsFavoriteValue(isFavorite)
+        }
+
+    init {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                favoritesInteractor.getAllTracksIdFavourite()
+                    .collect { result ->
+                        val isFavorite = result.contains(currentTeack?.trackId)
+                        isFavoriteLiveData
+                            .postValue(FavoritesState.IsFavorites(isFavorite))
+                    }
+            }
+        }
+    }
 
     fun preparePlayer(url: String?){
         if (url.isNullOrEmpty()) return
@@ -76,6 +105,26 @@ class WalkmanViewModel(
                 currentPositionLiveData.value = currentPosition
             }
         }
+    }
+
+    //Установка признака доступности
+    fun onFavoriteClicked() {
+        isFavoriteChangeDebouce(!currentTeack!!.isFavorite)
+    }
+
+    private fun setIsFavoriteValue(isFavorite: Boolean) {
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                when (isFavorite) {
+                    true -> currentTeack?.let { favoritesInteractor.addTrackFavourite(it) }
+                    false -> currentTeack?.let { favoritesInteractor.deleteTrackFavourite(it) }
+                }
+                currentTeack?.isFavorite = isFavorite
+                isFavoriteLiveData.postValue(FavoritesState.IsFavorites(isFavorite))
+            }
+        }
+
     }
 
     companion object {

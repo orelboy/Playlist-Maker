@@ -1,6 +1,8 @@
 package com.practicum.playlist_maker.di
 
 import android.content.Context
+import com.practicum.playlist_maker.medialibrary.data.FavoritesRepositoryImpl
+import com.practicum.playlist_maker.medialibrary.domain.api.FavoritesRepository
 import com.practicum.playlist_maker.utils.App
 import com.practicum.playlist_maker.search.data.impl.HistoryRepositoryImpl
 import com.practicum.playlist_maker.search.data.impl.TracksRepositoryImpl
@@ -18,7 +20,7 @@ import org.koin.dsl.module
 val repositoryModule = module {
 
     single<TracksRepository> {
-        TracksRepositoryImpl(get())
+        TracksRepositoryImpl(get(), get())
     }
 
     single<HistoryRepository> {
@@ -35,6 +37,10 @@ val repositoryModule = module {
 
     single<WalkmanRepository> {
         WalkmanRepositoryImpl(get())
+    }
+
+    single<FavoritesRepository> {
+        FavoritesRepositoryImpl(get(), get())
     }
 
 }
