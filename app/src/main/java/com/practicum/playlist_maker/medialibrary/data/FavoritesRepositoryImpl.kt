@@ -11,17 +11,17 @@ class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val trackDbMapper: TrackDbMapper,
 ): FavoritesRepository {
-    override fun addTrackFavourite(track: Track) {
+    override fun addTrackFavorites(track: Track) {
         val trackEntity = trackDbMapper.map(track)
         appDatabase.trackDao().insertTrack(trackEntity)
     }
 
-    override fun deleteTrackFavourite(track: Track) {
+    override fun deleteTrackFavorites(track: Track) {
         val tracksEntity = trackDbMapper.map(track)
         appDatabase.trackDao().deleteTrack (tracksEntity)
     }
 
-    override fun getTracksFavourite(): Flow<List<Track>> = flow {
+    override fun getTracksFavorites(): Flow<List<Track>> = flow {
 
         val result = appDatabase.trackDao().getAllTracks()
             .sortedByDescending { it.createDateTime }
@@ -30,7 +30,7 @@ class FavoritesRepositoryImpl(
         emit(result)
     }
 
-    override fun getAllTracksIdFavourite(): Flow<List<Int>> = flow {
+    override fun getAllTracksIdFavorites(): Flow<List<Int>> = flow {
         val result = appDatabase.trackDao().getAllTracksId()
 
         emit(result)

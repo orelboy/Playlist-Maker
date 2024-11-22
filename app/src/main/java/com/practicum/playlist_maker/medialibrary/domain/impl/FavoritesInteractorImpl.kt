@@ -8,18 +8,18 @@ import kotlinx.coroutines.flow.Flow
 class FavoritesInteractorImpl(
     private val favoritesRepository: FavoritesRepository
 ): FavoritesInteractor {
-    override suspend fun getTracksFavourite(): Flow<List<Track>> {
-        return favoritesRepository.getTracksFavourite()
+    override suspend fun getTracksFavorites(): Flow<List<Track>> {
+        return favoritesRepository.getTracksFavorites()
     }
-    override suspend fun addTrackFavourite(track: Track) {
-        favoritesRepository.addTrackFavourite(track)
-    }
-
-    override suspend fun deleteTrackFavourite(track: Track) {
-        favoritesRepository.deleteTrackFavourite(track)
+    override suspend fun addTrackFavorites(track: Track) {
+        favoritesRepository.addTrackFavorites(track)
     }
 
-    override suspend fun getAllTracksIdFavourite(): Flow<List<Int>> {
-        return favoritesRepository.getAllTracksIdFavourite()
+    override suspend fun deleteTrackFavorites(track: Track) {
+        favoritesRepository.deleteTrackFavorites(track)
+    }
+
+    override suspend fun getAllTracksIdFavorites(): Flow<List<Int>> {
+        return favoritesRepository.getAllTracksIdFavorites()
     }
 }

@@ -6,19 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.databinding.FragmentFavouriteListBinding
 import com.practicum.playlist_maker.medialibrary.domain.models.FavoritesViewState
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.search.ui.SearchTracksAdapter
+import com.practicum.playlist_maker.walkman.ui.WalkmanActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FavouritesFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
     private var _binding: FragmentFavouriteListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModel<FavouritesViewModel>()
+    private val viewModel by viewModel<FavoritesViewModel>()
     private var trackAdapter = SearchTracksAdapter()
+    private var isClickAllowed = true
 
 
     override fun onCreateView(
@@ -35,6 +42,11 @@ class FavouritesFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
+
+        trackAdapter = SearchTracksAdapter { track ->
+            startWalkmanActivity(track)
+        }
+
         binding.rvTracks.adapter = trackAdapter
     }
 
@@ -56,8 +68,8 @@ class FavouritesFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): FavouritesFragment {
-            return FavouritesFragment()
+        fun newInstance(): FavoritesFragment {
+            return FavoritesFragment()
         }
     }
 
@@ -81,5 +93,25 @@ class FavouritesFragment : Fragment() {
         }
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(1000L)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+    private fun startWalkmanActivity(track: Track) {
+        if (clickDebounce()) {
+            findNavController()
+                .navigate(
+                    R.id.action_mediaLibraryFragment_to_walkmanActivity,
+                    WalkmanActivity.createArgs(track)
+                )
+        }
+    }
 
 }

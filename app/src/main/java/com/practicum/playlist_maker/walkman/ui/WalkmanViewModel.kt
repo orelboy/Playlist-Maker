@@ -44,7 +44,7 @@ class WalkmanViewModel(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                favoritesInteractor.getAllTracksIdFavourite()
+                favoritesInteractor.getAllTracksIdFavorites()
                     .collect { result ->
                         val isFavorite = result.contains(currentTeack?.trackId)
                         isFavoriteLiveData
@@ -82,7 +82,7 @@ class WalkmanViewModel(
         }
     }
 
-    fun startPlayer(){
+    private fun startPlayer(){
         walkmanInteractor.startPlayer()
         playStatusLiveData.value = PlayerState.STATE_PLAYING
         updateTimer()
@@ -107,7 +107,6 @@ class WalkmanViewModel(
         }
     }
 
-    //Установка признака доступности
     fun onFavoriteClicked() {
         isFavoriteChangeDebouce(!currentTeack!!.isFavorite)
     }
@@ -117,8 +116,8 @@ class WalkmanViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 when (isFavorite) {
-                    true -> currentTeack?.let { favoritesInteractor.addTrackFavourite(it) }
-                    false -> currentTeack?.let { favoritesInteractor.deleteTrackFavourite(it) }
+                    true -> currentTeack?.let { favoritesInteractor.addTrackFavorites(it) }
+                    false -> currentTeack?.let { favoritesInteractor.deleteTrackFavorites(it) }
                 }
                 currentTeack?.isFavorite = isFavorite
                 isFavoriteLiveData.postValue(FavoritesState.IsFavorites(isFavorite))

@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class FavouritesViewModel(
+class FavoritesViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ): ViewModel() {
 
@@ -24,7 +24,7 @@ class FavouritesViewModel(
         favoritesJob?.cancel()
         favoritesJob = viewModelScope.launch {
             favoritesInteractor
-                .getTracksFavourite()
+                .getTracksFavorites()
                 .flowOn(Dispatchers.IO)
                 .collect { favoritesTracks ->
                     stateLiveData.postValue(

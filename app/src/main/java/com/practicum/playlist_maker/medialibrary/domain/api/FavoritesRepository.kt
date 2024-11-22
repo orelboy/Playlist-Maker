@@ -4,8 +4,8 @@ import com.practicum.playlist_maker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
 interface FavoritesRepository {
-    fun addTrackFavourite(track: Track)
-    fun deleteTrackFavourite(track: Track)
-    fun getTracksFavourite(): Flow<List<Track>>
-    fun getAllTracksIdFavourite(): Flow<List<Int>>
+    fun addTrackFavorites(track: Track)
+    fun deleteTrackFavorites(track: Track)
+    fun getTracksFavorites(): Flow<List<Track>>
+    fun getAllTracksIdFavorites(): Flow<List<Int>>
 }

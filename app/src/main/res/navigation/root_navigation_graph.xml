@@ -27,11 +27,24 @@
         android:id="@+id/mediaLibraryFragment"
         android:name="com.practicum.playlist_maker.medialibrary.ui.MediaLibraryFragment"
         android:label="fragment_media_library"
-        tools:layout="@layout/fragment_media_library" />
+        tools:layout="@layout/fragment_media_library" >
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_walkmanActivity"
+            app:destination="@id/walkmanActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.practicum.playlist_maker.settings.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.practicum.playlist_maker.medialibrary.ui.FavoritesFragment"
+        android:label="fragment_favourite_list"
+        tools:layout="@layout/fragment_favourite_list" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_walkmanActivity"
+            app:destination="@id/walkmanActivity" />
+    </fragment>
 </navigation>
