@@ -1,5 +1,6 @@
 package com.practicum.playlist_maker.walkman.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -11,17 +12,20 @@ import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.utils.AndroidUtils.dpToPx
 import com.practicum.playlist_maker.databinding.ActivityWalkmanBinding
+import com.practicum.playlist_maker.medialibrary.domain.models.FavoritesState
 import com.practicum.playlist_maker.walkman.domain.models.PlayerState
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class WalkmanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWalkmanBinding
-    private val viewModel by viewModel<WalkmanViewModel>()
 
     private var track: Track? = null
     private var url: String? = null
+    private val viewModel by viewModel<WalkmanViewModel>{parametersOf(track)}
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWalkmanBinding.inflate(LayoutInflater.from(this))
@@ -42,6 +46,19 @@ class WalkmanActivity : AppCompatActivity() {
             binding.playTime.text = it
         }
 
+        viewModel.observeIsFavorite().observe(this){ state ->
+            when (state) {
+                is FavoritesState.IsFavorites -> {
+                    binding.addFavourite.setImageResource(
+                        if (state.isFavorite)
+                            R.drawable.ic_button_add_favorites_active
+                        else
+                            R.drawable.ic_button_add_favorites_inactive
+                    )
+                }
+            }
+        }
+
         fun getAlbumData(): String {
             return track?.collectionName ?: run {
                 binding.album.isVisible = false
@@ -53,6 +70,7 @@ class WalkmanActivity : AppCompatActivity() {
         binding.apply {
             backButton.setOnClickListener { finish() }
             playAndPause.setOnClickListener { viewModel.playbackControl() }
+            addFavourite.setOnClickListener { viewModel.onFavoriteClicked() }
             trackName.text = track?.trackName
             artistName.text = track?.artistName
             durationData.text = track?.getTrackTime(track?.trackTime!!)
