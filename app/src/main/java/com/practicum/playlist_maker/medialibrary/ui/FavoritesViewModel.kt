@@ -25,7 +25,7 @@ class FavoritesViewModel(
         favoritesJob = viewModelScope.launch {
             favoritesInteractor
                 .getTracksFavorites()
-                .flowOn(Dispatchers.IO)
+                .flowOn(Dispatchers.Default)
                 .collect { favoritesTracks ->
                     stateLiveData.postValue(
                         when {

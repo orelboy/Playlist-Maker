@@ -43,7 +43,7 @@ class WalkmanViewModel(
 
     init {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.Default){
                 favoritesInteractor.getAllTracksIdFavorites()
                     .collect { result ->
                         val isFavorite = result.contains(currentTeack?.trackId)

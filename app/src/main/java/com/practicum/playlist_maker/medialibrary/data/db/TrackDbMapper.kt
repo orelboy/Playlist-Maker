@@ -4,7 +4,7 @@ import com.practicum.playlist_maker.medialibrary.data.db.entity.TrackEntity
 import com.practicum.playlist_maker.search.domain.models.Track
 
 class TrackDbMapper{
-    fun map(track: Track): TrackEntity {
+    fun map(track: Track, createDateTime: Long): TrackEntity {
         return TrackEntity(
             trackId = track.trackId,
             artistName = track.artistName,
@@ -16,7 +16,7 @@ class TrackDbMapper{
             primaryGenreName = track.primaryGenreName,
             country = track.country,
             previewUrl = track.previewUrl,
-            createDateTime = System.currentTimeMillis()
+            createDateTime = createDateTime
         )
     }
 

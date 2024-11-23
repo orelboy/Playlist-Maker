@@ -31,7 +31,6 @@ class TracksRepositoryImpl(
                     data.forEach { track ->
                         track.isFavorite = favoritesId.find { id -> track.trackId == id } != null
                     }
-                   // data.sortedByDescending { track -> track.isFavorite }
                     emit(SearchViewState.Success(data))
                 }
             }

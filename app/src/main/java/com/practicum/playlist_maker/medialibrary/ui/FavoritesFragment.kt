@@ -67,12 +67,6 @@ class FavoritesFragment : Fragment() {
         viewModel.readFavoritesTracks()
     }
 
-    companion object {
-        fun newInstance(): FavoritesFragment {
-            return FavoritesFragment()
-        }
-    }
-
     private fun showEmptyListError(){
         binding.apply {
             textError.isVisible = true
@@ -98,7 +92,7 @@ class FavoritesFragment : Fragment() {
         if (isClickAllowed) {
             isClickAllowed = false
             viewLifecycleOwner.lifecycleScope.launch {
-                delay(1000L)
+                delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }
         }
@@ -114,4 +108,10 @@ class FavoritesFragment : Fragment() {
         }
     }
 
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        fun newInstance(): FavoritesFragment {
+            return FavoritesFragment()
+        }
+    }
 }
