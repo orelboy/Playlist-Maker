@@ -1,11 +1,11 @@
 package com.practicum.playlist_maker.walkman.domain.api
 
-import com.practicum.playlist_maker.walkman.domain.models.PlayerState
+import com.practicum.playlist_maker.walkman.domain.models.WalkmanState
 
 interface WalkmanRepository {
     fun preparePlayer(url: String)
-    fun setOnPreparedListener(listener: (PlayerState) -> Unit)
-    fun setOnCompletionListener(listener: (PlayerState) -> Unit)
+    fun setOnPreparedListener(listener: (WalkmanState) -> Unit)
+    fun setOnCompletionListener(listener: (WalkmanState) -> Unit)
 
     fun startPlayer()
     fun pausePlayer()

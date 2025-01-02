@@ -2,7 +2,7 @@ package com.practicum.playlist_maker.walkman.data
 
 import android.media.MediaPlayer
 import com.practicum.playlist_maker.walkman.domain.api.WalkmanRepository
-import com.practicum.playlist_maker.walkman.domain.models.PlayerState
+import com.practicum.playlist_maker.walkman.domain.models.WalkmanState
 
 class WalkmanRepositoryImpl( private val mediaPlayer: MediaPlayer):
     WalkmanRepository {
@@ -12,15 +12,15 @@ class WalkmanRepositoryImpl( private val mediaPlayer: MediaPlayer):
         mediaPlayer.prepareAsync()
     }
 
-    override fun setOnPreparedListener(listener: (PlayerState) -> Unit) {
+    override fun setOnPreparedListener(listener: (WalkmanState) -> Unit) {
         mediaPlayer.setOnPreparedListener {
-            listener.invoke(PlayerState.STATE_PREPARED)
+            listener.invoke(WalkmanState.STATE_PREPARED)
         }
     }
 
-    override fun setOnCompletionListener(listener: (PlayerState) -> Unit) {
+    override fun setOnCompletionListener(listener: (WalkmanState) -> Unit) {
         mediaPlayer.setOnCompletionListener {
-            listener.invoke(PlayerState.STATE_PREPARED)
+            listener.invoke(WalkmanState.STATE_PREPARED)
         }
     }
 

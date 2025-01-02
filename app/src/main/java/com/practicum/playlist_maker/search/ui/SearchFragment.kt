@@ -16,9 +16,8 @@ import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.databinding.FragmentSearchBinding
 import com.practicum.playlist_maker.search.domain.models.SearchViewState
 import com.practicum.playlist_maker.search.domain.models.Track
-import com.practicum.playlist_maker.walkman.ui.WalkmanActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.practicum.playlist_maker.utils.debounce
+import com.practicum.playlist_maker.walkman.ui.WalkmanFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -29,7 +28,6 @@ class SearchFragment : Fragment() {
 
     private var trackAdapter = SearchTracksAdapter()
     private var trackHistoryAdapter = SearchTracksAdapter()
-    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,13 +66,12 @@ class SearchFragment : Fragment() {
 
         trackAdapter = SearchTracksAdapter { track ->
             viewModel.addToTrackHistory(track)
-            startWalkmanActivity(track)
+            startWalkmanFragment(track)
         }
 
         trackHistoryAdapter = SearchTracksAdapter { track ->
             viewModel.addToTrackHistory(track)
-            startWalkmanActivity(track)
-            viewModel.showHistory() //
+            startWalkmanFragment(track)
         }
 
         binding.apply {
@@ -120,17 +117,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-        }
-        return current
-    }
     private fun showListTracks(listTracks: List<Track>) {
         trackAdapter.tracks.clear()
         trackAdapter.tracks.addAll(listTracks)
@@ -186,17 +172,21 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun startWalkmanActivity(track: Track) {
-        if (clickDebounce()) {
+    private val playTrackDebouncer: (Track) -> Unit by lazy {
+        debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope, false) { track ->
             findNavController()
                 .navigate(
-                    R.id.action_searchFragment_to_walkmanActivity,
-                    WalkmanActivity.createArgs(track)
+                    R.id.action_searchFragment_to_walkmanFragment,
+                    WalkmanFragment.createArgs(track)
                 )
         }
     }
 
+    private fun startWalkmanFragment(track: Track) {
+        playTrackDebouncer(track)
+    }
+
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 500L
     }
 }

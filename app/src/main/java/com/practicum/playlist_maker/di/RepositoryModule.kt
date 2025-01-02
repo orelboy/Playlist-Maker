@@ -2,7 +2,9 @@ package com.practicum.playlist_maker.di
 
 import android.content.Context
 import com.practicum.playlist_maker.medialibrary.data.FavoritesRepositoryImpl
+import com.practicum.playlist_maker.medialibrary.data.PlaylistsRepositoryImpl
 import com.practicum.playlist_maker.medialibrary.domain.api.FavoritesRepository
+import com.practicum.playlist_maker.medialibrary.domain.api.PlaylistsRepository
 import com.practicum.playlist_maker.utils.App
 import com.practicum.playlist_maker.search.data.impl.HistoryRepositoryImpl
 import com.practicum.playlist_maker.search.data.impl.TracksRepositoryImpl
@@ -41,6 +43,10 @@ val repositoryModule = module {
 
     single<FavoritesRepository> {
         FavoritesRepositoryImpl(get(), get())
+    }
+
+    single<PlaylistsRepository>{
+        PlaylistsRepositoryImpl(get(), get(), get(), get(), get())
     }
 
 }
