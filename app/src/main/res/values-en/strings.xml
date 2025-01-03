@@ -20,8 +20,20 @@
     <string name="genre">Genre</string>
     <string name="country">Country</string>
     <string name="no_playlists_created">You haven\'t created \nany playlists</string>
-    <string name="new_playlist">New PlayList</string>
+    <string name="new_playlist">New Playlist</string>
     <string name="your_media_library_is_empty">Your media library is empty</string>
     <string name="favourite_tracks">Favourite tracks</string>
     <string name="playlists">Playlists</string>
+    <string name="create">Create</string>
+    <string name="playlist_name">Playlist name*</string>
+    <string name="description">Description</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="finish_creating_the_playlist">Finish creating the playlist?</string>
+    <string name="all_unsaved_data_will_be_lost">All unsaved data will be lost.</string>
+    <string name="cancel">Сancel</string>
+    <string name="finish">Finish</string>
+    <string name="track">track</string>
+    <string name="two_track">tracks</string>
+    <string name="five_track">tracks</string>
 </resources>

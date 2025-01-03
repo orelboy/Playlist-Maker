@@ -24,7 +24,7 @@ class TracksRepositoryImpl(
                 if (result.isEmpty()){
                     emit(SearchViewState.Empty)
                 }else{
-                    val favoritesId = dataBase.trackDao().getAllTracksId()
+                    val favoritesId = dataBase.trackDao().getAllTracksIdFavorites()
                     val data = response.results.map {
                         it.mapToTrack()
                     }

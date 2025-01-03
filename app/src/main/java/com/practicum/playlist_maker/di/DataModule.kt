@@ -3,7 +3,11 @@ package com.practicum.playlist_maker.di
 import android.content.Context.MODE_PRIVATE
 import android.media.MediaPlayer
 import androidx.room.Room
+import com.google.gson.Gson
+import com.practicum.playlist_maker.medialibrary.data.FileStorage
+import com.practicum.playlist_maker.medialibrary.data.FileStorageImpl
 import com.practicum.playlist_maker.medialibrary.data.db.AppDatabase
+import com.practicum.playlist_maker.medialibrary.data.db.PlaylistDbMapper
 import com.practicum.playlist_maker.medialibrary.data.db.TrackDbMapper
 import com.practicum.playlist_maker.utils.App.Companion.PLAYLIST_MAKER_PREFERENCES
 import com.practicum.playlist_maker.search.data.network.ITunesSearchAPI
@@ -42,9 +46,16 @@ val dataModule = module {
 
     factory { TrackDbMapper() }
 
+    factory { PlaylistDbMapper() }
+
+    factory { Gson() }
+
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    single<FileStorage> { FileStorageImpl(context = androidContext()) }
+
 }

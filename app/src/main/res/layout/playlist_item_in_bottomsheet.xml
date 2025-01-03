@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootTrack"
+    android:layout_width="match_parent"
+    android:layout_height="61dp"
+    android:orientation="horizontal"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingVertical="14dp">
+
+        <TextView
+            android:id="@+id/playlistName"
+            style="@style/Track"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:theme="@style/ThemeBlackWhiteText"
+            tools:text="PlayList Name" />
+
+        <TextView
+            android:id="@+id/tracks_count"
+            style="@style/SubstringTrack"
+            android:theme="@style/ThemeGrayWhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            tools:text="157 треков" />
+
+    </LinearLayout>
+
+</LinearLayout>

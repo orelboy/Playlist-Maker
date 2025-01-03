@@ -13,9 +13,8 @@ import com.practicum.playlist_maker.databinding.FragmentFavouriteListBinding
 import com.practicum.playlist_maker.medialibrary.domain.models.FavoritesViewState
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.search.ui.SearchTracksAdapter
-import com.practicum.playlist_maker.walkman.ui.WalkmanActivity
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.practicum.playlist_maker.utils.debounce
+import com.practicum.playlist_maker.walkman.ui.WalkmanFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,8 +24,6 @@ class FavoritesFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<FavoritesViewModel>()
     private var trackAdapter = SearchTracksAdapter()
-    private var isClickAllowed = true
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,12 +36,13 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
 
         trackAdapter = SearchTracksAdapter { track ->
-            startWalkmanActivity(track)
+            startWalkmanFragment(track)
         }
 
         binding.rvTracks.adapter = trackAdapter
@@ -86,30 +84,22 @@ class FavoritesFragment : Fragment() {
 
         }
     }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-        }
-        return current
-    }
-    private fun startWalkmanActivity(track: Track) {
-        if (clickDebounce()) {
+    private val playTrackDebouncer: (Track) -> Unit by lazy {
+        debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope, false) { track ->
             findNavController()
                 .navigate(
-                    R.id.action_mediaLibraryFragment_to_walkmanActivity,
-                    WalkmanActivity.createArgs(track)
+                    R.id.action_mediaLibraryFragment_to_walkmanFragment,
+                    WalkmanFragment.createArgs(track)
                 )
         }
     }
 
+    private fun startWalkmanFragment(track: Track) {
+        playTrackDebouncer(track)
+    }
+
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 500L
         fun newInstance(): FavoritesFragment {
             return FavoritesFragment()
         }

@@ -39,11 +39,7 @@ class MediaLibraryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Обнуляем ссылку на binding
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         tabMediator.detach()
+        _binding = null // Обнуляем ссылку на binding
     }
 }

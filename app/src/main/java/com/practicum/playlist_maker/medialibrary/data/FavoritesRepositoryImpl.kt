@@ -14,25 +14,25 @@ class FavoritesRepositoryImpl(
     override fun addTrackFavorites(track: Track) {
         val createDateTime = System.currentTimeMillis()
         val trackEntity = trackDbMapper.map(track, createDateTime)
-        appDatabase.trackDao().insertTrack(trackEntity)
+        appDatabase.trackDao().insertTrackFavorites(trackEntity)
     }
 
     override fun deleteTrackFavorites(track: Track) {
         val createDateTime = System.currentTimeMillis()
         val tracksEntity = trackDbMapper.map(track, createDateTime)
-        appDatabase.trackDao().deleteTrack (tracksEntity)
+        appDatabase.trackDao().deleteTrackFavorites (tracksEntity)
     }
 
     override fun getTracksFavorites(): Flow<List<Track>> = flow {
 
-        val result = appDatabase.trackDao().getAllTracks()
+        val result = appDatabase.trackDao().getAllTracksFavorites()
             .map { trackDbMapper.map(it) }
 
         emit(result)
     }
 
     override fun getAllTracksIdFavorites(): Flow<List<Int>> = flow {
-        val result = appDatabase.trackDao().getAllTracksId()
+        val result = appDatabase.trackDao().getAllTracksIdFavorites()
 
         emit(result)
     }
