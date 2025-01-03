@@ -10,7 +10,7 @@ import com.practicum.playlist_maker.medialibrary.data.db.entity.PlaylistsAndTrac
 import com.practicum.playlist_maker.medialibrary.data.db.entity.TracksInPlaylistEntity
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         FavoritesEntity::class,
         PlaylistEntity::class,
