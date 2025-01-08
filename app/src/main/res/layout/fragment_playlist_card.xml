@@ -50,9 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16dp"
-            android:src="@drawable/ic_button_back"
+            android:src="@drawable/ic_button_back_for_playlist"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/left_guideline"/>
+            app:layout_constraintStart_toEndOf="@+id/left_guideline" />
 
         <TextView
             android:id="@+id/playlistName"
@@ -65,7 +65,8 @@
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintTop_toBottomOf="@+id/cover_guideline"
             app:layout_constraintBottom_toTopOf="@+id/playlistDescription"
-            tools:text="playlistName" />
+            tools:text="playlistName"
+            android:theme="@style/ThemeBlackTextForPlaylistCard"/>
 
         <TextView
             android:id="@+id/playlistDescription"
@@ -80,7 +81,8 @@
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintTop_toBottomOf="@+id/playlistName"
             app:layout_constraintBottom_toTopOf="@+id/playlistDuration"
-            tools:text="playlistDescription" />
+            tools:text="playlistDescription"
+            android:theme="@style/ThemeBlackTextForPlaylistCard"/>
 
         <TextView
             android:id="@+id/playlistDuration"
@@ -91,7 +93,8 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toBottomOf="@+id/playlistDescription"
-            tools:text="300 минут" />
+            tools:text="300 минут"
+            android:theme="@style/ThemeBlackTextForPlaylistCard"/>
 
         <ImageView
             android:id="@+id/point"
@@ -113,7 +116,8 @@
             app:layout_constraintEnd_toEndOf="@id/right_guideline"
             app:layout_constraintStart_toEndOf="@id/point"
             app:layout_constraintTop_toTopOf="@id/point"
-            tools:text="98 треков" />
+            tools:text="98 треков"
+            android:theme="@style/ThemeBlackTextForPlaylistCard"/>
 
         <ImageView
             android:id="@+id/playlistShare"

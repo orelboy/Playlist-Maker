@@ -50,4 +50,7 @@
     <style name="ThemeGrayGrayText">
         <item name="android:textColor">@color/text_gray</item>
     </style>
+    <style name="ThemeBlackTextForPlaylistCard">
+        <item name="android:textColor">@color/black</item>
+    </style>
  </resources>
