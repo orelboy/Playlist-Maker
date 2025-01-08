@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mediaLibraryFragment_to_walkmanFragment"
             app:destination="@id/walkmanFragment" />
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_playlistCardFragment"
+            app:destination="@id/playlistCardFragment" />
     </fragment>
 
     <fragment
@@ -36,7 +39,7 @@
         android:id="@+id/playlistCreateFragment"
         android:name="com.practicum.playlist_maker.medialibrary.ui.PlayListCreateFragment"
         android:label="@string/new_playlist"
-        tools:layout="@layout/fragment_play_list_edit"/>
+        tools:layout="@layout/fragment_playlist_create_and_edit"/>
     <fragment
         android:id="@+id/walkmanFragment"
         android:name="com.practicum.playlist_maker.walkman.ui.WalkmanFragment"
@@ -46,4 +49,19 @@
             android:id="@+id/action_walkmanFragment_to_playlistCreateFragment"
             app:destination="@id/playlistCreateFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/playlistCardFragment"
+        android:name="com.practicum.playlist_maker.medialibrary.ui.PlaylistCardFragment"
+        android:label="PlaylistCardFragment" >
+        <action
+            android:id="@+id/action_playlistCardFragment_to_walkmanFragment"
+            app:destination="@id/walkmanFragment" />
+        <action
+            android:id="@+id/action_playlistCardFragment_to_playlistEditFragment"
+            app:destination="@id/playlistEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistEditFragment"
+        android:name="com.practicum.playlist_maker.medialibrary.ui.PlaylistEditFragment"
+        android:label="PlaylistEditFragment" />
 </navigation>

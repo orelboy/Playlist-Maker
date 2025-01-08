@@ -32,7 +32,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
 
-
     <ImageView
         android:id="@+id/playlistCover"
         android:layout_width="0dp"
@@ -55,6 +54,7 @@
         android:layout_marginTop="32dp"
         android:autofillHints=""
         android:hint="@string/playlist_name"
+        android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@id/endBorder"
         app:layout_constraintStart_toEndOf="@id/startBorder"
         app:layout_constraintTop_toBottomOf="@id/playlistCover" />
@@ -77,6 +77,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:hint="@string/description"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toTopOf="@id/create_button"
         app:layout_constraintEnd_toStartOf="@id/endBorder"
         app:layout_constraintStart_toEndOf="@id/startBorder"

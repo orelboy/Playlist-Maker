@@ -4,8 +4,8 @@ import com.practicum.playlist_maker.sharing.domain.api.SharingInteractor
 import com.practicum.playlist_maker.sharing.domain.api.SharingRepository
 
 class SharingInteractorImpl (private val repository: SharingRepository) : SharingInteractor {
-    override fun share() {
-        repository.share()
+    override fun share(link: String) {
+        repository.share(link)
     }
 
     override fun support() {

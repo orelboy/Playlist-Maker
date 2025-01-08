@@ -4,5 +4,5 @@ sealed interface PlaylistEditState {
     data object Loading : PlaylistEditState
     data object Empty: PlaylistEditState
     data class Create(val data: Playlist): PlaylistEditState
-    data class Content(val data: PlaylistEditData) : PlaylistEditState
+    data class Content(val data: PlaylistCreateData) : PlaylistEditState
 }

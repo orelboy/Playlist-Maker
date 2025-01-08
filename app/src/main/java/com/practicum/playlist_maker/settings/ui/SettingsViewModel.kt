@@ -22,8 +22,8 @@ class SettingsViewModel(
         return settingsInteractor.checkSwitchOnResume()
     }
 
-    fun share() {
-        sharingInteractor.share()
+    fun share(link: String) {
+        sharingInteractor.share(link)
     }
 
     fun support() {

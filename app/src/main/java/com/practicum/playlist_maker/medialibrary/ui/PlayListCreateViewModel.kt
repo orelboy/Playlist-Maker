@@ -6,20 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlist_maker.medialibrary.domain.api.PlaylistsInteractor
-import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistEditData
+import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistCreateData
 import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistEditState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class PlayListCreateViewModel (private val playlistsInteractor: PlaylistsInteractor) : ViewModel()  {
+open class PlayListCreateViewModel (val playlistsInteractor: PlaylistsInteractor) : ViewModel()  {
 
     private val playListState = MutableLiveData<PlaylistEditState>(PlaylistEditState.Empty)
     fun playListStateObserver(): LiveData<PlaylistEditState> = playListState
 
-    private var lastName: String = ""
-    private var lastDescription: String = ""
-    private var lastCover: Uri? = null
+    var lastName: String = ""
+    var lastDescription: String? = ""
+    var lastCover: Uri? = null
 
     fun onNameChanged(newName: String) {
 
@@ -50,17 +50,17 @@ class PlayListCreateViewModel (private val playlistsInteractor: PlaylistsInterac
     fun hasUnsavedModify(): Boolean {
 
         return lastName.isNotEmpty()
-                || lastDescription.isNotEmpty()
+                || !lastDescription.isNullOrEmpty()
                 || lastCover != null
 
     }
 
-    fun savePlaylist() {
+    open fun savePlaylist() {
 
         viewModelScope.launch {
 
             playlistsInteractor.createPlaylist(
-                PlaylistEditData(
+                PlaylistCreateData(
                     name = lastName,
                     description = lastDescription,
                     coverPathUri = lastCover
@@ -74,13 +74,13 @@ class PlayListCreateViewModel (private val playlistsInteractor: PlaylistsInterac
 
     }
 
-    private fun renderLastData() {
+    fun renderLastData() {
 
         val state = if (lastName.isNotEmpty()
-            || lastDescription.isNotEmpty()
+            || !lastDescription.isNullOrEmpty()
             || lastCover != null
         ) PlaylistEditState.Content(
-            PlaylistEditData(
+            PlaylistCreateData(
                 name = lastName,
                 description = lastDescription,
                 coverPathUri = lastCover
@@ -91,7 +91,7 @@ class PlayListCreateViewModel (private val playlistsInteractor: PlaylistsInterac
 
     }
 
-    private fun renderState(state: PlaylistEditState) {
+    fun renderState(state: PlaylistEditState) {
         playListState.postValue(state)
     }
 

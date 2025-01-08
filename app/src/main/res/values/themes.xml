@@ -21,6 +21,10 @@
     <style name="ThemeDefaultWhiteIc" parent="Base.Theme.PlaylistMaker">
     </style>
 
+    <style name="ThemeBlackIc" parent="Base.Theme.PlaylistMaker">
+        <item name="android:tint">@color/black</item>
+    </style>
+
     <style name="Theme.Search" parent="Base.Theme.PlaylistMaker">
     </style>
 

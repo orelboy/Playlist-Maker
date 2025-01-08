@@ -7,10 +7,10 @@ import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.sharing.domain.api.SharingRepository
 
 class SharingRepositoryImpl(private val context: Context?) : SharingRepository {
-    override fun share() {
+    override fun share(link: String) {
         val shareIntent = Intent(Intent.ACTION_SEND)
             .setType("text/plain")
-            .putExtra(Intent.EXTRA_TEXT, context?.getString(R.string.url_YP_android_developer))
+            .putExtra(Intent.EXTRA_TEXT, link)// context?.getString(R.string.url_YP_android_developer))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context?.startActivity(shareIntent)
     }
