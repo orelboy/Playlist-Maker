@@ -83,9 +83,11 @@ class SearchFragment : Fragment() {
             }
 
             iconClearInString.setOnClickListener {
-                searchEditText.text.clear()
-                closeKeyboard()
-                viewModel.showHistory()
+                if (!progressBar.isVisible){
+                    searchEditText.text.clear()
+                    closeKeyboard()
+                    viewModel.showHistory()
+                }
             }
 
             btnClearHistory.setOnClickListener {
