@@ -55,5 +55,7 @@
     <string name="no">Нет</string>
     <string name="save">Сохранить</string>
     <string name="edit">Редактировать</string>
+    <string name="empty_playlist">В этом плейлисте нет треков.</string>
+
 
 </resources>

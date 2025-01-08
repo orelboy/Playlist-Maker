@@ -276,7 +276,7 @@ class PlaylistCardFragment : Fragment() {
 
         binding.rvTracklist.isVisible = tracks.isNotEmpty()
         if (tracks.isEmpty()){
-                val text = "В этом плейлисте нет треков."
+                val text = getString(R.string.empty_playlist)
                 Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
         }
     }
