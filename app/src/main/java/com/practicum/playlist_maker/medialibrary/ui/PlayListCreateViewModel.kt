@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-open class PlayListCreateViewModel (val playlistsInteractor: PlaylistsInteractor) : ViewModel()  {
+open class PlayListCreateViewModel (protected val playlistsInteractor: PlaylistsInteractor) : ViewModel()  {
 
     private val playListState = MutableLiveData<PlaylistEditState>(PlaylistEditState.Empty)
     fun playListStateObserver(): LiveData<PlaylistEditState> = playListState

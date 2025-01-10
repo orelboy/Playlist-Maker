@@ -44,7 +44,7 @@
     <string name="minutes_genitive">минут</string>
 
     <string name="delete_track">Удалить трек</string>
-    <string name="question_sure_remove_track_from_playlist">Хотите удалить трек из плейлиста?</string>
+    <string name="question_sure_remove_track_from_playlist">Хотите удалить трек?</string>
     <string name="delete">Удалить</string>
     <string name="no_tracklist_in_playlist_shared">В этом плейлисте нет списка треков, которым можно поделиться</string>
     <string name="share">Поделиться</string>

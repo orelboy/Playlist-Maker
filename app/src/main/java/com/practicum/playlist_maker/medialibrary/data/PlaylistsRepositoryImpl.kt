@@ -24,7 +24,7 @@ class PlaylistsRepositoryImpl(
     private val serializer: Gson,
     ): PlaylistsRepository {
 
-    override suspend fun createPlaylist(data: PlaylistCreateData): Flow<Playlist> = flow {
+    override fun createPlaylist(data: PlaylistCreateData): Flow<Playlist> = flow {
 
         val path = saveImage(data)
         val playlistEntity = playlistDbMapper.map(data, path)
@@ -35,7 +35,7 @@ class PlaylistsRepositoryImpl(
 
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getAllPlaylists(): Flow<List<Playlist>> = flow {
+    override fun getAllPlaylists(): Flow<List<Playlist>> = flow {
 
         val playlistList = appDatabase.playlistDao().getAllPlaylists() .map { entity ->
             playlistDbMapper.map(
@@ -57,14 +57,7 @@ class PlaylistsRepositoryImpl(
 
     }
 
-//    private suspend fun getPlaylistByPlaylistEntity(playlistEntity: PlaylistEntity): Playlist {
-//        return playlistDbMapper.map(
-//            playlistEntity,
-//            fileStorage.getImageUri(playlistEntity.coverLocalPath)
-//        )
-//    }
-
-    override suspend fun addTrack(
+    override fun addTrack(
         track: Track,
         playlist: Playlist,
     ): Flow<ResultAddingTrackInPlaylist> = flow {
@@ -82,14 +75,20 @@ class PlaylistsRepositoryImpl(
 
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun deletePlaylist(playlistId: Int): Flow<Boolean> = flow {
+    override fun deletePlaylist(playlistId: Int): Flow<Boolean> = flow {
         val playlistEntity = appDatabase.playlistDao().findPlaylistById(playlistId)
         playlistEntity?.let { entity ->
 
             val tracks = appDatabase.playlistDao().getPlaylistTracksId(playlistId = playlistId)
 
             appDatabase.playlistDao().deletePlaylistSafety(entity)
-            tracks.forEach { id -> appDatabase.playlistDao().deleteTrackByIdSafety(id) }
+
+            tracks.forEach { id ->
+                val isInOtherPlaylists = appDatabase.playlistDao().getPlaylistIdsForTrack(id).isEmpty()
+                if (isInOtherPlaylists){
+                    appDatabase.playlistDao().deleteTrackById(id)
+                }
+            }
 
             deleteImage(entity.coverLocalPath)
 
@@ -99,7 +98,10 @@ class PlaylistsRepositoryImpl(
 
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun savePlaylistData(data: PlaylistEditData): Flow<Playlist> = flow {
+
+
+
+    override fun savePlaylistData(data: PlaylistEditData): Flow<Playlist> = flow {
 
         val playlistEntity = appDatabase.playlistDao().findPlaylistById(data.id)
         if (playlistEntity == null) {
@@ -124,7 +126,7 @@ class PlaylistsRepositoryImpl(
 
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getPlaylistById(playlistId: Int): Flow<Playlist?>  = flow {
+    override fun getPlaylistById(playlistId: Int): Flow<Playlist?>  = flow {
         val result = appDatabase.playlistDao().getPlaylist(playlistId)
 
         emit(result?.let { playlistDbMapper.map(it, fileStorage.getImageUri(result.coverLocalPath)) })
@@ -132,14 +134,21 @@ class PlaylistsRepositoryImpl(
     }.flowOn(Dispatchers.IO)
 
 
-    override suspend fun removeTrack(track: Track, playlistId: Int): Flow<Boolean> = flow {
-        appDatabase.playlistDao()
-            .removeFromPlaylist(trackEntity = trackDbMapper.map(track), playlistId = playlistId)
+    override fun removeTrack(track: Track, playlistId: Int): Flow<Boolean> = flow {
+        val trackEntity = trackDbMapper.map(track)
+
+        appDatabase.playlistDao().removeFromPlaylist(trackEntity = trackEntity, playlistId = playlistId)
+
+        val isInOtherPlaylists = appDatabase.playlistDao().getPlaylistIdsForTrack(trackEntity.trackId).isEmpty()
+        if (isInOtherPlaylists) {
+            // Если трек не в других плейлистах, далее удаляем
+            appDatabase.playlistDao().deleteTrack(trackEntity = trackEntity)
+        }
         updatePlaylistInfoById(playlistId)
         emit(true)
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getTracks(playlistId: Int): Flow<List<Track>> = flow {
+    override fun getTracks(playlistId: Int): Flow<List<Track>> = flow {
 
         val result = appDatabase.playlistDao().getTracks(playlistId = playlistId)
             .map { entity -> trackDbMapper.map(entity) }
@@ -160,14 +169,6 @@ class PlaylistsRepositoryImpl(
             }
         }
     }
-
-//    fun getPlaylistByPlaylistEntity(playlistEntity: PlaylistEntity): Playlist {
-//
-//        return playlistDbMapper.map(
-//            playlistEntity,
-//            fileStorage.getImageUri(playlistEntity.coverLocalPath)
-//        )
-//    }
 
     private suspend fun deleteImage(path: String?) {
 

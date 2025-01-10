@@ -1,7 +1,6 @@
 package com.practicum.playlist_maker.medialibrary.domain.models
 
 import android.content.Context
-import android.net.Uri
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.utils.AndroidUtils.trackDurationToTimeString
 import com.practicum.playlist_maker.utils.AndroidUtils.tracksCountString
@@ -11,7 +10,7 @@ class PlaylistDetailedInfo(
     val name: String,
     val description: String?,
     val tracksCount: Int?,
-    val coverPathUri: Uri?,
+    val coverPathUri: String?,
     val tracks: List<Track>,
 ) {
 

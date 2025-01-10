@@ -10,7 +10,7 @@ class PlaylistTrackAdapter (
     private var onLongClick: ((Track) -> Unit)? = null
 
 ) : RecyclerView.Adapter<SearchTracksViewHolder> () {
-    var tracks = ArrayList<Track>()
+    val tracks: MutableList<Track> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTracksViewHolder
     {

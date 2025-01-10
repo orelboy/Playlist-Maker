@@ -39,4 +39,5 @@ object AndroidUtils {
         return SimpleDateFormat("mm:ss", Locale.getDefault()).format(duration)
 
     }
+
 }

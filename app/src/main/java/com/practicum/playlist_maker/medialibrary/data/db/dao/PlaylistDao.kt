@@ -32,6 +32,9 @@ interface PlaylistDao {
     @Insert(entity = TracksInPlaylistEntity::class, onConflict = OnConflictStrategy.IGNORE)
     fun insertInTableTracksInPlaylist(tracksInPlaylistEntity: TracksInPlaylistEntity)
 
+    @Query("DELETE FROM tracks_in_playlist_table WHERE trackId = :trackId")
+    fun deleteTrackById(trackId: Int)
+
     // для таблицы PlaylistsAndTracksEntity
     @Insert(entity = PlaylistsAndTracksEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun insertInTablePlaylistsAndTracks(playlistsAndTracksEntity: PlaylistsAndTracksEntity)
@@ -41,6 +44,9 @@ interface PlaylistDao {
 
     @Query("SELECT trackId  FROM playlists_and_tracks_table WHERE playlistId = :playlistId")
     fun getPlaylistTracksId(playlistId: Int): List<Int>
+
+    @Query("SELECT DISTINCT playlistId FROM playlists_and_tracks_table WHERE trackId = :trackId")
+    fun getPlaylistIdsForTrack(trackId: Int): List<Int>
 
     @Query("DELETE FROM playlists_and_tracks_table WHERE playlistId = :playlistId")
     fun deletePlaylistsTracks(playlistId: Int)
@@ -67,7 +73,6 @@ interface PlaylistDao {
                 trackId = trackEntity.trackId
             )
         )
-        deleteTrackSafety(trackEntity)
     }
 
     @Transaction
@@ -82,18 +87,6 @@ interface PlaylistDao {
     @Delete(entity = TracksInPlaylistEntity::class)
     fun deleteTrack(trackEntity: TracksInPlaylistEntity)
 
-    @Transaction
-    fun deleteTrackByIdSafety(trackId: Int) {
-
-        if (getPlaylistTracksId(trackId).isEmpty()) {
-
-            val entity = findTrackById(trackId)
-            if (entity != null) {
-                deleteTrack(entity)
-            }
-        }
-    }
-
     @Query(
         "SELECT * " +
                 "FROM playlists_and_tracks_table " +
@@ -106,13 +99,5 @@ interface PlaylistDao {
 
     @Delete(entity = PlaylistsAndTracksEntity::class)
     fun deleteFromPlaylist(entity: PlaylistsAndTracksEntity)
-
-    @Transaction
-    fun deleteTrackSafety(entity: TracksInPlaylistEntity) {
-
-        if (getPlaylistTracksId(entity.trackId).isEmpty()) {
-            deleteTrack(entity)
-        }
-    }
 
 }

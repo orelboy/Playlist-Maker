@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -107,13 +108,6 @@ class PlaylistCardFragment : Fragment() {
 
                     val height = binding.frameLayoutIndent.height - 70
 
-                    //    val height = resources.displayMetrics.heightPixels - binding.coverGuideline.height - 20
-                    //    if (bottomSheetBehavior.peekHeight != height){
-                    //        bottomSheetBehavior.peekHeight = height
-                    //    }
-
-                   // height = height.pxToDp(requireContext())
-
                     if (bottomSheetBehavior.peekHeight != height) {
                         bottomSheetBehavior.peekHeight = height
                     }
@@ -198,7 +192,7 @@ class PlaylistCardFragment : Fragment() {
 
     private fun showPlaylistDetales(data: PlaylistDetailedInfo) {
 
-        showPlaylistCover(data.coverPathUri)
+        showPlaylistCover(data.coverPathUri?.toUri())
 
         updateDescriptioView(data)
 
@@ -221,7 +215,7 @@ class PlaylistCardFragment : Fragment() {
     private fun showComandsPanel(data: PlaylistDetailedInfo) {
 
         setCommandMenuVisible(isVisible = true)
-        showPlaylistCover(data.coverPathUri)
+        showPlaylistCover(data.coverPathUri?.toUri())
         updateDescriptioView(data)
 
         binding.itemFromMenu.playlistName.text = data.name
@@ -285,14 +279,14 @@ class PlaylistCardFragment : Fragment() {
 
         val title = getString(R.string.delete_track)
         val message = getString(R.string.question_sure_remove_track_from_playlist)
-        val cancel = getString(R.string.cancel)
-        val delete = getString(R.string.delete)
+        val no = getString(R.string.no)
+        val yes = getString(R.string.yes)
 
         return MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(title)
             .setMessage(message)
-            .setNeutralButton(cancel) { _, _ -> }
-            .setPositiveButton(delete) { _, _ -> viewModel.removeFromPlaylist(track) }
+            .setNeutralButton(no) { _, _ -> }
+            .setPositiveButton(yes) { _, _ -> viewModel.removeFromPlaylist(track) }
     }
 
     private fun confirmDeleteDialog(): MaterialAlertDialogBuilder {

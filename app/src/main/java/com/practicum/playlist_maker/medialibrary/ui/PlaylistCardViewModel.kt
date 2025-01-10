@@ -125,7 +125,7 @@ class PlaylistCardViewModel(
             name = playlist.name,
             description = playlist.description,
             tracksCount = playlist.tracksCount,
-            coverPathUri = playlist.coverPathUri,
+            coverPathUri = playlist.coverPathUri?.toString(),
             tracks = tracks
         )
     }
