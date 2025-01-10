@@ -115,7 +115,6 @@ class PlaylistCardFragment : Fragment() {
 
             }
 
-
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
