@@ -1,6 +1,7 @@
 package com.practicum.playlist_maker.medialibrary.ui
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,8 @@ import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistDetailedI
 import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistItemShareState
 import com.practicum.playlist_maker.search.domain.models.Track
 import com.practicum.playlist_maker.sharing.domain.api.SharingInteractor
+import com.practicum.playlist_maker.utils.AndroidUtils.trackDurationToTimeString
+import com.practicum.playlist_maker.utils.AndroidUtils.tracksCountString
 import kotlinx.coroutines.launch
 
 class PlaylistCardViewModel(
@@ -83,11 +86,41 @@ class PlaylistCardViewModel(
             if (info.tracks.isEmpty()) {
                 renderShareState(PlaylistItemShareState.Empty)
             } else {
-                sharingInteractor.share(info.mapToString(application))
+                sharingInteractor.share(mapToString(application))
                 finishShare()
             }
         }
     }
+
+    private fun mapToString(context: Context): String {
+
+        val builder = StringBuilder()
+        builder.append(lastPlaylistInfo?.name)
+        if (!lastPlaylistInfo?.description.isNullOrEmpty()) {
+            builder.append("\n")
+            builder.append(lastPlaylistInfo?.description)
+        }
+        builder.append("\n")
+        builder.append(lastPlaylistInfo?.tracksCount?.let { tracksCountString(context, it) })
+
+
+        lastPlaylistInfo?.tracks?.forEachIndexed { index, track ->
+            builder.append("\n")
+            builder.append(
+                "${index + 1}.${track.artistName} - ${track.trackName} (${
+                    trackDurationToTimeString(
+                        track.trackTime
+                    )
+                })"
+            )
+
+
+        }
+
+        return builder.toString()
+
+    }
+
 
     fun getCommandsList() {
         lastPlaylistInfo?.let { info ->
