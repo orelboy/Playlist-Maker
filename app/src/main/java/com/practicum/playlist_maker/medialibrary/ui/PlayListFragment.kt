@@ -37,7 +37,12 @@ class PlayListFragment : Fragment() {
         binding.newPlaylistButton.setOnClickListener {
             findNavController().navigate(R.id.action_mediaLibraryFragment_to_playlistCreateFragment)
         }
-
+        playlistAdapter = PlayListAdapter{ playlist ->
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistCardFragment,
+                PlaylistCardFragment.createArgs(playlist = playlist)
+            )
+        }
         binding.playlists.adapter = playlistAdapter
 
         viewModel.playlistStateObserver().observe(viewLifecycleOwner) { state -> render(state) }

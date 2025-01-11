@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlist_maker.R
 import com.practicum.playlist_maker.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +30,7 @@ class SettingsFragment : Fragment() {
 
         binding.apply {
             sharing.setOnClickListener {
-                viewModel.share()
+                viewModel.share(getString(R.string.url_YP_android_developer))
             }
             support.setOnClickListener {
                 viewModel.support()

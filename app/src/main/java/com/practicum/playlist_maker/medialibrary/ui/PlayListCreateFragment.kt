@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
@@ -19,23 +20,23 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlist_maker.R
-import com.practicum.playlist_maker.databinding.FragmentPlayListEditBinding
+import com.practicum.playlist_maker.databinding.FragmentPlaylistCreateAndEditBinding
 import com.practicum.playlist_maker.medialibrary.domain.models.Playlist
-import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistEditData
+import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistCreateData
 import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistEditState
 import com.practicum.playlist_maker.utils.AndroidUtils.dpToPx
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlayListCreateFragment : Fragment() {
-    private val viewModel: PlayListCreateViewModel by viewModel()
+open class PlayListCreateFragment : Fragment() {
+    protected open val viewModel: PlayListCreateViewModel by viewModel()
 
-    private var _binding: FragmentPlayListEditBinding? = null
-    private val binding: FragmentPlayListEditBinding get() = _binding!!
+    private var _binding: FragmentPlaylistCreateAndEditBinding ? = null
+    protected val binding: FragmentPlaylistCreateAndEditBinding get() = _binding!!
 
     private lateinit var nameTextWatcher: TextWatcher
     private lateinit var descriptionTextWatcher: TextWatcher
 
-    private val onBackCallBack = object : OnBackPressedCallback(true) {
+    val onBackCallBack = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             safeExit(isEnabled)
         }
@@ -59,7 +60,7 @@ class PlayListCreateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentPlayListEditBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistCreateAndEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -104,6 +105,15 @@ class PlayListCreateFragment : Fragment() {
     }
 
     private fun initTextWatchers() {
+        binding.playlistName.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                // Прокрутка к следующему EditText
+                binding.playlistDescription.requestFocus()
+                true
+            } else {
+                false
+            }
+        }
 
         nameTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -150,7 +160,7 @@ class PlayListCreateFragment : Fragment() {
 
     }
 
-    private fun closeFragment() {
+    fun closeFragment() {
         findNavController().popBackStack()
     }
 
@@ -163,7 +173,7 @@ class PlayListCreateFragment : Fragment() {
         }
     }
 
-    private fun showPlaylistContent(data: PlaylistEditData) {
+    private fun showPlaylistContent(data: PlaylistCreateData) {
 
         if (binding.playlistName.text.toString() != data.name) {
             binding.playlistName.setText(data.name)
@@ -181,7 +191,7 @@ class PlayListCreateFragment : Fragment() {
         if (binding.playlistDescription.text.toString() != data.description) {
             binding.playlistDescription.setText(data.description)
         }
-        if (binding.playlistDescription.text.isNotEmpty()) {
+        if (!binding.playlistDescription.text.isNullOrEmpty()) {
             binding.playlistDescriptionTitle.isVisible = true
             binding.playlistDescription.isSelected = true
         } else {
@@ -209,7 +219,7 @@ class PlayListCreateFragment : Fragment() {
 
     private fun showEmpty() {
         showPlaylistContent(
-            PlaylistEditData(
+            PlaylistCreateData(
                 name = "",
                 description = "",
                 coverPathUri = null
@@ -217,7 +227,7 @@ class PlayListCreateFragment : Fragment() {
         )
     }
 
-    private fun showCreate(newPlaylist: Playlist) {
+     open fun showCreate(newPlaylist: Playlist) {
 
         Toast.makeText(
             requireActivity(),

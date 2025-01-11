@@ -3,11 +3,11 @@ package com.practicum.playlist_maker.medialibrary.data.db
 import android.net.Uri
 import com.practicum.playlist_maker.medialibrary.data.db.entity.PlaylistEntity
 import com.practicum.playlist_maker.medialibrary.domain.models.Playlist
-import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistEditData
+import com.practicum.playlist_maker.medialibrary.domain.models.PlaylistCreateData
 
 class PlaylistDbMapper {
 
-    fun map(data: PlaylistEditData, coverLocalPath: String?): PlaylistEntity {
+    fun map(data: PlaylistCreateData, coverLocalPath: String?): PlaylistEntity {
 
         return PlaylistEntity(
             name = data.name,
